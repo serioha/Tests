@@ -10,3 +10,5 @@ class DiSC_Deactivator {
         DB_Manager::drop_table();
     }
 }
+register_activation_hook(__FILE__, array('DiSC_Activator', 'activate'));
+register_deactivation_hook(__FILE__, array('DiSC_Deactivator', 'deactivate'));
