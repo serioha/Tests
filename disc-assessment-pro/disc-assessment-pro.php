@@ -11,6 +11,7 @@ class DiSC_Plugin {
     }
 }
 
+require_once __DIR__ . '/includes/DB_Manager.php';
 $disc_plugin = new DiSC_Plugin();
 class DiSC_Activator {
     public static function activate() {
