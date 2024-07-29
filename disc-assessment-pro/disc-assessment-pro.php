@@ -2,6 +2,7 @@
 /*
 Plugin Name: DiSC Assessment Pro
 Description: A plugin to manage DiSC assessments and generate detailed reports
+Version: 1.0
 */
 
 class DiSC_Plugin {
@@ -24,3 +25,4 @@ class DiSC_Deactivator {
 }
 register_activation_hook(__FILE__, array('DiSC_Activator', 'activate'));
 register_deactivation_hook(__FILE__, array('DiSC_Deactivator', 'deactivate'));
+define('DISC_ASSESSMENT_PRO_VERSION', '1.0');
