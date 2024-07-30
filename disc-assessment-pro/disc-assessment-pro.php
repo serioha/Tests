@@ -59,9 +59,6 @@ require_once __DIR__ . '/includes/models/DiSC_Reporting.php';
 require_once __DIR__ . '/includes/models/DiSC_Tests.php';
 require_once __DIR__ . '/includes/models/DiSC_User.php';
 
-// Remove this line, as DiSC_Admin_Base is an abstract class
-
-
 class DiSC_Activator {
     public static function activate() {
         DB_Manager::create_table();
