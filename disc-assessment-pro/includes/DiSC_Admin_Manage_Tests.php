@@ -1,7 +1,7 @@
 <?php
 class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
-    public function __construct() {
-        parent::__construct();
+    public function __construct($wpdb) {
+        parent::__construct($wpdb);
     }
 
     public function add_menu_item() {

@@ -1,15 +1,11 @@
 <?php
 class DiSC_Frontend_Result_Display extends DiSC_Frontend_Base {
-    public function __construct() {
-        add_shortcode('disc_result_display', array($this, 'render_results'));
+    public function __construct($wpdb) {
+        parent::__construct($wpdb);
     }
 
-    public function render_results() {
-        // Retrieve user results and display them
-    }
-
-    public function generate_pdf() {
-        // Generate a PDF report for the user
+    public function display_result() {
+        // Display the user's result based on their responses
     }
 }
 ?>

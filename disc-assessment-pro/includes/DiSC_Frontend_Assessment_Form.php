@@ -1,7 +1,7 @@
 <?php
 class DiSC_Frontend_Assessment_Form extends DiSC_Frontend_Base {
-    public function __construct() {
-        add_shortcode('disc_assessment_form', array($this, 'render_form'));
+    public function __construct($wpdb) {
+        parent::__construct($wpdb);
     }
 
     public function render_form() {
