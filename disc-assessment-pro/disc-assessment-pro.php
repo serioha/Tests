@@ -13,6 +13,7 @@ class DiSC_Plugin {
 
 require_once __DIR__ . '/includes/DB_Manager.php';
 
+$disc_admin_base = new DiSC_Admin_Base();
 $disc_plugin = new DiSC_Plugin();
 
 class DiSC_Activator {
