@@ -1,11 +1,11 @@
 <?php
 class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
     public function __construct() {
-        add_action('admin_menu', array($this, 'add_menu_item'));
+        parent::__construct();
     }
 
     public function add_menu_item() {
-        // Add a menu item for managing tests and questions
+        add_submenu_page('disc-plugin', 'Manage Tests', 'Manage Tests', 'manage_options', 'disc-manage-tests', array($this, 'render_test_manager'));
     }
 
     public function render_test_manager() {
