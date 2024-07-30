@@ -15,7 +15,8 @@ require_once __DIR__ . '/includes/DB_Manager.php';
 require_once __DIR__ . '/includes/DiSC_Admin_Base.php';
 
 // Remove this line, as DiSC_Admin_Base is an abstract class
-$disc_plugin = new DiSC_Plugin();
+$disc_admin_base = new DiSC_Admin_Base();
+$disc_admin_base->add_menu_item();
 
 class DiSC_Activator {
     public static function activate() {
