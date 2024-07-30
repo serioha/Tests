@@ -1,5 +1,5 @@
 <?php
-class DiSC_Frontend_Assessment_Form_Handler extends DiSC_Frontend_Base {
+// No class declaration here
     public function __construct() {
         add_shortcode('disc_assessment_form', array($this, 'render_form'));
     }
