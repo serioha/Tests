@@ -61,7 +61,6 @@ require_once __DIR__ . '/includes/models/DiSC_User.php';
 
 // Remove this line, as DiSC_Admin_Base is an abstract class
 
-$disc_admin_base->add_menu_item();
 
 class DiSC_Activator {
     public static function activate() {
