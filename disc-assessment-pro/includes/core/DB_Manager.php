@@ -112,3 +112,8 @@ class DB_Manager {
     }
 }
 ?>
+<?php
+class DB_Manager {
+    // ... (rest of the code)
+}
+?>
