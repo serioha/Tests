@@ -13,3 +13,4 @@ abstract class DiSC_Admin_Base extends DiSC_Plugin_Base {
 
 }
 ?>
+require_once __DIR__ . '/DiSC_Plugin_Base.php';
