@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/DiSC_Plugin_Base.php';
 abstract class DiSC_Admin_Base extends DiSC_Plugin_Base {
     public function __construct() {
     }
