@@ -25,6 +25,12 @@ class Create_Test extends DiSC_Admin_Base {
                 'updated_at' => current_time('mysql')
             ));
 
+            // Get the last inserted ID
+            $new_test_id = $wpdb->insert_id;
+
+            // Log the new test ID
+            error_log("New test created with ID: " . $new_test_id);
+
             // Redirect to the tests page after saving
             wp_redirect(admin_url('admin.php?page=disc_manage_tests'));
             exit;
@@ -45,4 +51,3 @@ class Create_Test extends DiSC_Admin_Base {
 global $wpdb;
 $create_test = new Create_Test($wpdb);
 $create_test->render();
-?>
