@@ -4,8 +4,8 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
         parent::__construct($wpdb);
     }
 
-    public function add_menu_item($menu_title, $menu_slug, $capability, $menu_page, $callback) {
-        add_submenu_page('disc-plugin', 'Manage Tests', 'Manage Tests', 'manage_options', 'disc-manage-tests', array($this, 'render_test_manager'));
+    public function add_menu_item($menu_title, $menu_slug, $capability, $callback = null) {
+        add_submenu_page('DiSC Assessment', 'Manage Tests', 'Manage Tests', $capability, $menu_slug, array($this, 'render_test_manager'));
     }
 
     public function render_test_manager() {
