@@ -7,8 +7,8 @@ abstract class DiSC_Admin_Base {
     }
 
     // Base class for admin functionality
-    public function add_menu_item($menu_title, $menu_slug, $capability, $menu_page, $callback) {
-        add_menu_page($menu_title, $menu_title, $capability, $menu_slug, $callback);
+    public function add_menu_item($menu_title, $menu_slug, $capability, $callback) {
+        add_submenu_page($menu_title, 'Manage Personality Types', 'Manage Personality Types', $capability, $menu_slug, $callback);
     }
 
     public function render_menu() {
