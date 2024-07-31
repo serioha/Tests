@@ -12,7 +12,11 @@ class DiSC_Admin_Manage_Personality_Types extends DiSC_Admin_Base {
         add_action('admin_menu', array($this, 'add_menu_item'));
     }
 
-    public function add_menu_item($menu_title, $menu_slug, $capability, $callback = null) {
+    public function add_menu_item() {
+        $menu_title = 'Manage Personality Types';
+        $menu_slug = 'manage_personality_types';
+        $capability = 'manage_options';
+        
         add_submenu_page('DiSC Assessment', $menu_title, $menu_title, $capability, $menu_slug, array($this, 'render_personality_types_manager'));
         add_submenu_page(null, 'Edit Personality Type', 'Edit Personality Type', $capability, 'edit_personality_type', array($this, 'display_edit_personality_type_page'));
         add_submenu_page(null, 'Create Personality Type', 'Create Personality Type', $capability, 'create_personality_type', array(new Create_Personality_Type($this->wpdb), 'render'));
