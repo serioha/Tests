@@ -72,6 +72,7 @@ class DiSC_Admin_Manage_Personality_Types extends DiSC_Admin_Base {
             wp_die(__('No personality type specified for editing.'));
         }
 
+        $type_id = intval($_GET['type_id']);
         $file_path = plugin_dir_path(__FILE__) . 'edit-personality-type.php';
         if (file_exists($file_path)) {
             include $file_path;
