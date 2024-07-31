@@ -6,6 +6,16 @@ Version: 1.0.0
 */
 
 class DiSC_Plugin {
+    private $db_manager;
+    private $admin_base;
+    private $settings;
+    private $report_generator;
+    private $user;
+    private $tests;
+    private $reporting;
+    private $assessment_form;
+    private $result_display;
+
     public function __construct() {
         // Initialize the plugin
         error_log('Initialize the plugin');
