@@ -13,43 +13,101 @@ class Create_Personality_Type extends DiSC_Admin_Base {
         }
     }
 
-    public function render() {
-        // Handle form submission
-        if (isset($_POST['save_personality_type'])) {
-            $type_name = sanitize_text_field($_POST['type_name']);
-            $title = sanitize_text_field($_POST['title']);
-            $adapted_description = sanitize_textarea_field($_POST['adapted_description']);
-            $natural_description = sanitize_textarea_field($_POST['natural_description']);
-            $coaching_tips = sanitize_textarea_field($_POST['coaching_tips']);
+    public function render($type_id = 0) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'disc_personality_types';
 
-            global $wpdb;
-            $wpdb->insert("{$wpdb->prefix}disc_personality_types", array(
-                'type_name' => $type_name,
-                'title' => $title,
-                'adapted_description' => $adapted_description,
-                'natural_description' => $natural_description,
-                'coaching_tips' => $coaching_tips
-            ));
+        $type_name = '';
+        $title = '';
+        $adapted_description = '';
+        $natural_description = '';
+        $coaching_tips = '';
 
-            // Redirect to the personality types manager after saving
-            wp_redirect(admin_url('admin.php?page=disc_manage_personality_types'));
-            exit;
+        if ($type_id > 0) {
+            $type = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE type_id = %d", $type_id));
+            if ($type) {
+                $type_name = $type->type_name ?? '';
+                $title = $type->title ?? '';
+                $adapted_description = $type->adapted_description ?? '';
+                $natural_description = $type->natural_description ?? '';
+                $coaching_tips = $type->coaching_tips ?? '';
+            }
         }
 
-        echo '<h1>Create New Personality Type</h1>';
-        echo '<form method="post" action="">';
-        echo '<label for="type_name">Type Name</label>';
-        echo '<input type="text" name="type_name" required />';
-        echo '<label for="title">Title</label>';
-        echo '<input type="text" name="title" required />';
-        echo '<label for="adapted_description">Adapted Description</label>';
-        echo '<textarea name="adapted_description" required></textarea>';
-        echo '<label for="natural_description">Natural Description</label>';
-        echo '<textarea name="natural_description" required></textarea>';
-        echo '<label for="coaching_tips">Coaching Tips</label>';
-        echo '<textarea name="coaching_tips" required></textarea>';
-        echo '<input type="submit" name="save_personality_type" value="Save" class="button button-primary" />';
-        echo '</form>';
+        ?>
+        <div class="wrap">
+            <h1><?php echo $type_id > 0 ? 'Edit Personality Type' : 'Create New Personality Type'; ?></h1>
+
+            <a href="<?php echo admin_url('admin.php?page=disc_manage_personality_types'); ?>" class="button">Back to Personality Types</a>
+
+            <form method="post">
+                <input type="hidden" name="action" value="<?php echo $type_id > 0 ? 'edit' : 'add'; ?>">
+                <?php if ($type_id > 0): ?>
+                    <input type="hidden" name="type_id" value="<?php echo esc_attr($type_id); ?>">
+                <?php endif; ?>
+
+                <h3>Type Name</h3>
+                <input type="text" name="type_name" value="<?php echo esc_attr($type_name); ?>" style="width: 100%;" required>
+
+                <h3>Title</h3>
+                <input type="text" name="title" value="<?php echo esc_attr($title); ?>" style="width: 100%;" required>
+
+                <h3>Adapted Description</h3>
+                <textarea name="adapted_description" required><?php echo esc_textarea($adapted_description); ?></textarea>
+
+                <h3>Natural Description</h3>
+                <textarea name="natural_description" required><?php echo esc_textarea($natural_description); ?></textarea>
+
+                <h3>Coaching Tips</h3>
+                <textarea name="coaching_tips" required><?php echo esc_textarea($coaching_tips); ?></textarea>
+
+                <button type="submit" class="button button-primary"><?php echo $type_id > 0 ? 'Save Changes' : 'Add Type'; ?></button>
+            </form>
+        </div>
+
+        <?php
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $action = sanitize_text_field($_POST['action']);
+
+            $type_name = sanitize_text_field($_POST['type_name']);
+            $title = sanitize_text_field($_POST['title']);
+            $adapted_description = wp_kses_post($_POST['adapted_description']);
+            $natural_description = wp_kses_post($_POST['natural_description']);
+            $coaching_tips = wp_kses_post($_POST['coaching_tips']);
+
+            if ($action === 'add') {
+                $wpdb->insert(
+                    $table_name,
+                    [
+                        'type_name' => $type_name,
+                        'title' => $title,
+                        'adapted_description' => $adapted_description,
+                        'natural_description' => $natural_description,
+                        'coaching_tips' => $coaching_tips,
+                    ],
+                    ['%s', '%s', '%s', '%s', '%s']
+                );
+            } elseif ($action === 'edit') {
+                $type_id = intval($_POST['type_id']);
+
+                $wpdb->update(
+                    $table_name,
+                    [
+                        'type_name' => $type_name,
+                        'title' => $title,
+                        'adapted_description' => $adapted_description,
+                        'natural_description' => $natural_description,
+                        'coaching_tips' => $coaching_tips,
+                    ],
+                    ['type_id' => $type_id],
+                    ['%s', '%s', '%s', '%s', '%s'],
+                    ['%d']
+                );
+            }
+
+            echo '<script type="text/javascript">window.location.href="' . admin_url('admin.php?page=disc_manage_personality_types') . '";</script>';
+            exit;
+        }
     }
 }
 ?>

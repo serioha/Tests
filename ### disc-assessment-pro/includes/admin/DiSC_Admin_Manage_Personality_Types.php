@@ -24,9 +24,10 @@ class DiSC_Admin_Manage_Personality_Types extends DiSC_Admin_Base {
         $types = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}disc_personality_types");
 
         // Handle the custom action
-        if (isset($_GET['action']) && $_GET['action'] === 'create_new_type') {
+        if (isset($_GET['action']) && ($_GET['action'] === 'create_new_type' || ($_GET['action'] === 'edit' && isset($_GET['type_id'])))) {
             $create_personality_type = new Create_Personality_Type($wpdb);
-            $create_personality_type->render();
+            $type_id = isset($_GET['type_id']) ? intval($_GET['type_id']) : 0;
+            $create_personality_type->render($type_id);
             return;
         }
 
@@ -56,7 +57,7 @@ class DiSC_Admin_Manage_Personality_Types extends DiSC_Admin_Base {
                             <td><?php echo wp_kses_post($type->natural_description); ?></td>
                             <td><?php echo wp_kses_post($type->coaching_tips); ?></td>
                             <td>
-                                <a href="<?php echo admin_url('admin.php?page=edit_personality_type&type_id=' . $type->type_id); ?>" class="button">Edit</a>
+                                <a href="<?php echo admin_url('admin.php?page=disc_manage_personality_types&action=edit&type_id=' . $type->type_id); ?>" class="button">Edit</a>
                                 <a href="<?php echo admin_url('admin-post.php?action=delete_type&type_id=' . $type->type_id); ?>" class="button" onclick="return confirm('Are you sure you want to delete this personality type?');">Delete</a>
                             </td>
                         </tr>
