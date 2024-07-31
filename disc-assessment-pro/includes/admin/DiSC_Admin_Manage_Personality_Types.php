@@ -12,7 +12,7 @@ class DiSC_Admin_Manage_Personality_Types extends DiSC_Admin_Base {
         add_action('admin_menu', array($this, 'add_menu_item'));
     }
 
-    public function add_menu_item($menu_title, $menu_slug, $capability, $callback = null) {
+    public function add_menu_item() {
         $menu_title = 'Manage Personality Types';
         $menu_slug = 'disc_manage_personality_types';
         $capability = 'manage_options';
