@@ -88,3 +88,6 @@ register_activation_hook(__FILE__, array('DiSC_Activator', 'activate'));
 register_deactivation_hook(__FILE__, array('DiSC_Deactivator', 'deactivate'));
 
 define('DISC_ASSESSMENT_PRO_VERSION', '1.0.0');
+
+// Initialize the plugin
+new DiSC_Plugin();
