@@ -57,3 +57,4 @@ class Create_Personality_Type extends DiSC_Admin_Base {
 global $wpdb;
 $create_personality_type = new Create_Personality_Type($wpdb);
 $create_personality_type->render();
+?>
