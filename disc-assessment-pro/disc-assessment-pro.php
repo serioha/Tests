@@ -18,7 +18,6 @@ class DiSC_Plugin {
 
     public function __construct() {
         // Initialize the plugin
-        error_log('Initialize the plugin');
         global $wpdb;
         $this->db_manager = new DB_Manager($wpdb);
         $this->admin_base = new DiSC_Admin_Base($wpdb);
@@ -49,7 +48,6 @@ class DiSC_Plugin {
 
     public function register_admin_menu() {
         $this->admin_base->add_menu_item('DiSC Assessment', 'disc-assessment', 'manage_options', array($this, 'render_menu'));
-        error_log('This is call from menu construction');
         
         // Add submenus
         $this->admin_base->add_submenu_item('disc-assessment', 'Manage Tests', 'manage-tests', 'manage_options', array(new DiSC_Admin_Manage_Tests($wpdb), 'render_test_manager'));
