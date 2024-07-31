@@ -68,7 +68,12 @@ class DiSC_Admin_Manage_Personality_Types extends DiSC_Admin_Base {
     }
 
     public function display_edit_personality_type_page() {
-        include plugin_dir_path(__FILE__) . 'edit-personality-type.php';
+        $file_path = plugin_dir_path(__FILE__) . 'edit-personality-type.php';
+        if (file_exists($file_path)) {
+            include $file_path;
+        } else {
+            wp_die(__('The requested file could not be found.'));
+        }
     }
 }
 
