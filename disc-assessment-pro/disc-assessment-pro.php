@@ -47,6 +47,7 @@ class DiSC_Plugin {
     }
 
     public function register_admin_menu() {
+        global $wpdb; // Ensure $wpdb is defined here
         $this->admin_base->add_menu_item('DiSC Assessment', 'disc-assessment', 'manage_options', array($this, 'render_menu'));
         
         // Add submenus
