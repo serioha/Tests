@@ -59,6 +59,28 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
     }
 
     private function render_create_test() {
+        if (!current_user_can('manage_options')) {
+            wp_die('You do not have sufficient permissions to access this page.');
+        }
+
+        // Handle form submission
+        if (isset($_POST['save_test'])) {
+            $test_title = sanitize_text_field($_POST['test_title']);
+            $test_description = sanitize_textarea_field($_POST['test_description']);
+
+            global $wpdb;
+            $wpdb->insert("{$wpdb->prefix}disc_tests", array(
+                'test_name' => $test_title,
+                'test_description' => $test_description,
+                'created_at' => current_time('mysql'),
+                'updated_at' => current_time('mysql')
+            ));
+
+            // Redirect to the tests page after saving
+            wp_redirect(admin_url('admin.php?page=disc_manage_tests'));
+            exit;
+        }
+
         echo '<h1>Create New Test</h1>';
         echo '<form method="post" action="">';
         echo '<label for="test_title">Test Title</label>';
