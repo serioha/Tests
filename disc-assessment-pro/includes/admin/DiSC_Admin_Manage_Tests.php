@@ -30,6 +30,8 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
 
         echo '<h1>Manage Tests</h1>';
         echo '<a href="' . admin_url('admin.php?page=disc_manage_tests&action=create_test') . '" class="button">Create New Test</a>';
+        echo '<a href="#" class="button">Import JSON</a>';
+        echo '<a href="#" class="button">Export JSON</a>';
         echo '<table class="widefat fixed">';
         echo '<thead><tr><th><input type="checkbox" /></th><th>ID</th><th>Title</th><th>Description</th><th>Shortcode</th><th>No of Questions</th><th>Created on</th><th>Updated on</th><th>View Results</th><th>Manage Questions</th><th>Actions</th></tr></thead>';
         echo '<tbody>';
