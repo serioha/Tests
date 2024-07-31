@@ -1,5 +1,7 @@
 <?php
 class DiSC_Admin_Base {
+    protected $wpdb; // Define the property
+
     public function __construct($wpdb) {
         $this->wpdb = $wpdb;
     }
