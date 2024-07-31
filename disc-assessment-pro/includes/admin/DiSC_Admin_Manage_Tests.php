@@ -2,6 +2,13 @@
 class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
     public function __construct($wpdb) {
         parent::__construct($wpdb);
+        add_action('admin_init', array($this, 'check_user_capability'));
+    }
+
+    public function check_user_capability() {
+        if (!current_user_can('manage_options')) {
+            wp_die(__('You do not have sufficient permissions to access this page.'));
+        }
     }
 
     public function add_menu_item($menu_title, $menu_slug, $capability, $callback = null) {
@@ -13,11 +20,6 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
     }
 
     public function render_test_manager() {
-        // Check user capability
-        if (!current_user_can('manage_options')) {
-            return $this->render_access_denied();
-        }
-
         // Handle actions
         if (isset($_GET['action'])) {
             if ($_GET['action'] == 'create_test') {

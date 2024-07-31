@@ -4,14 +4,16 @@ require_once __DIR__ . '/DiSC_Admin_Base.php';
 class Create_Personality_Type extends DiSC_Admin_Base {
     public function __construct($wpdb) {
         parent::__construct($wpdb);
+        add_action('admin_init', array($this, 'check_user_capability'));
+    }
+
+    public function check_user_capability() {
+        if (!current_user_can('manage_options')) {
+            wp_die(__('You do not have sufficient permissions to access this page.'));
+        }
     }
 
     public function render() {
-        // Check user capability after WordPress has fully loaded
-        if (!current_user_can('manage_options')) {
-            return $this->render_access_denied();
-        }
-
         // Handle form submission
         if (isset($_POST['save_personality_type'])) {
             $type_name = sanitize_text_field($_POST['type_name']);
