@@ -9,6 +9,11 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
     }
 
     public function render_test_manager() {
+        // Check user capability
+        if (!current_user_can('manage_options')) {
+            return $this->render_access_denied();
+        }
+
         // Handle actions
         if (isset($_GET['action'])) {
             if ($_GET['action'] == 'create_test') {
