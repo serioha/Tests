@@ -10,6 +10,8 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
 
     public function render_test_manager() {
         // Render the test manager interface
+        echo '<h1>Test Manager</h1>';
+        echo '<p>This is a test.</p>';
     }
 }
 ?>

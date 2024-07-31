@@ -10,6 +10,8 @@ class DiSC_Admin_Manage_Personality_Types extends DiSC_Admin_Base {
 
     public function render_personality_types_manager() {
         // Render the personality type manager interface
+        echo '<h1>Personality Type Manager</h1>';
+        echo '<p>This is a test.</p>';
     }
 }
 ?>
