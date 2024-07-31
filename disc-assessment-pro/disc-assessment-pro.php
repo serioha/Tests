@@ -9,37 +9,42 @@ class DiSC_Plugin {
     public function __construct() {
         // Initialize the plugin
         global $wpdb;
-         $this->db_manager = new DB_Manager($wpdb);
-         $this->admin_base = new DiSC_Admin_Base($wpdb);
-         $this->settings = new DiSC_Settings($wpdb);
-         $this->report_generator = new DiSC_Report_Generator($wpdb);
-         $this->user = new DiSC_User($wpdb);
-         $this->tests = new DiSC_Tests($wpdb);
-         $this->reporting = new DiSC_Reporting($wpdb);
-         $this->assessment_form = new DiSC_Frontend_Assessment_Form($wpdb);
-         $this->result_display = new DiSC_Frontend_Result_Display($wpdb);
+        $this->db_manager = new DB_Manager($wpdb);
+        $this->admin_base = new DiSC_Admin_Base($wpdb);
+        $this->settings = new DiSC_Settings($wpdb);
+        $this->report_generator = new DiSC_Report_Generator($wpdb);
+        $this->user = new DiSC_User($wpdb);
+        $this->tests = new DiSC_Tests($wpdb);
+        $this->reporting = new DiSC_Reporting($wpdb);
+        $this->assessment_form = new DiSC_Frontend_Assessment_Form($wpdb);
+        $this->result_display = new DiSC_Frontend_Result_Display($wpdb);
 
-         // Register activation and deactivation hooks
-         register_activation_hook(__FILE__, array($this, 'activate'));
-         register_deactivation_hook(__FILE__, array($this, 'deactivate'));
+        // Register activation and deactivation hooks
+        register_activation_hook(__FILE__, array($this, 'activate'));
+        register_deactivation_hook(__FILE__, array($this, 'deactivate'));
 
-         // Add admin menu items
-         $this->admin_base->add_menu_item('DiSC Assessment', 'disc-assessment', 'manage_options', 'disc-assessment', array($this, 'render_menu'));
-                                                                                                                                              
-         // Add settings
-         $this->settings->add_settings();
+        // Add admin menu items
+        $this->admin_base->add_menu_item('DiSC Assessment', 'disc-assessment', 'manage_options', 'disc-assessment', array($this, 'render_menu'));
+        
+        // Add settings
+        $this->settings->add_settings();
 
-         // Register shortcode for assessment form
-         add_shortcode('disc_assessment_form', array($this->assessment_form, 'render_form'));
+        // Register shortcode for assessment form
+        add_shortcode('disc_assessment_form', array($this->assessment_form, 'render_form'));
 
-         // Handle form submission
-         add_action('wp_ajax_disc_assessment_submit', array($this->assessment_form, 'handle_submission'));        
+        // Handle form submission
+        add_action('wp_ajax_disc_assessment_submit', array($this->assessment_form, 'handle_submission'));        
+    }
+
+    public function render_menu() {
+        echo '<h1>DiSC Assessment</h1>';
+        echo '<p>Welcome to the DiSC Assessment plugin!</p>';
     }
 
     public function activate() {
         $this->db_manager->create_table();
     }
-                                                                                                                                             
+    
     public function deactivate() {
         $this->db_manager->drop_table();
     }
