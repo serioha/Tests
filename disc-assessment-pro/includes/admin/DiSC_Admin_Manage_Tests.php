@@ -29,7 +29,7 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
         $tests = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}disc_tests");
 
         echo '<h1>Manage Tests</h1>';
-        echo '<a href="' . admin_url('admin.php?page=disc_manage_tests&action=create_test') . '" class="button">Create New Test</a>';
+        echo '<a href="' . admin_url('includes/admin/create-test.php') . '" class="button">Create New Test</a>';
         echo '<a href="#" class="button">Import JSON</a>';
         echo '<a href="#" class="button">Export JSON</a>';
         echo '<table class="widefat fixed">';
@@ -58,40 +58,6 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
     private function get_question_count($test_id) {
         global $wpdb;
         return $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM {$wpdb->prefix}disc_questions WHERE test_id = %d", $test_id));
-    }
-
-    private function render_create_test() {
-        if (!current_user_can('manage_options')) {
-            wp_die('You do not have sufficient permissions to access this page.');
-        }
-
-        // Handle form submission
-        if (isset($_POST['save_test'])) {
-            $test_title = sanitize_text_field($_POST['test_title']);
-            $test_description = sanitize_textarea_field($_POST['test_description']);
-
-            global $wpdb;
-            $wpdb->insert("{$wpdb->prefix}disc_tests", array(
-                'test_name' => $test_title,
-                'test_description' => $test_description,
-                'created_at' => current_time('mysql'),
-                'updated_at' => current_time('mysql')
-            ));
-
-            // Redirect to the tests page after saving
-            wp_redirect(admin_url('admin.php?page=disc_manage_tests'));
-            exit;
-        }
-
-        echo '<h1>Create New Test</h1>';
-        echo '<form method="post" action="">';
-        echo '<label for="test_title">Test Title</label>';
-        echo '<input type="text" name="test_title" required />';
-        echo '<label for="test_description">Test Description</label>';
-        echo '<textarea name="test_description" required></textarea>';
-        echo '<input type="submit" name="save_test" value="Save Test" />';
-        echo '<a href="' . admin_url('admin.php?page=disc_manage_tests') . '" class="button">Back to Tests</a>';
-        echo '</form>';
     }
 
     private function render_edit_test($test_id) {
