@@ -4,6 +4,8 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
+require_once __DIR__ . '/create-personality-type.php'; // Ensure the class is included
+
 class DiSC_Admin_Manage_Personality_Types extends DiSC_Admin_Base {
     public function __construct($wpdb) {
         parent::__construct($wpdb);
