@@ -7,6 +7,11 @@ class Create_Test extends DiSC_Admin_Base {
     }
 
     public function render() {
+        // Check user capability
+        if (!current_user_can('manage_options')) {
+            return $this->render_access_denied();
+        }
+
         // Handle form submission
         if (isset($_POST['save_test'])) {
             $test_title = sanitize_text_field($_POST['test_title']);
