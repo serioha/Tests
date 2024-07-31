@@ -2,7 +2,7 @@
 /*
 Plugin Name: DiSC Assessment Pro
 Description: A plugin to manage DiSC assessments and generate detailed reports
-Version: 1.0
+Version: 1.0.0
 */
 
 class DiSC_Plugin {
@@ -24,7 +24,7 @@ class DiSC_Plugin {
          register_deactivation_hook(__FILE__, array($this, 'deactivate'));
 
          // Add admin menu items
-         $this->admin_base->add_menu_item();
+         $this->admin_base->add_menu_item('DiSC Assessment', 'disc-assessment', 'manage_options', 'disc-assessment', array($this, 'render_menu'));
                                                                                                                                               
          // Add settings
          $this->settings->add_settings();
@@ -45,11 +45,11 @@ class DiSC_Plugin {
     }
 }
 
-require_once __DIR__ . '/includes/DB_Manager.php';
-require_once __DIR__ . '/includes/DiSC_Admin_Base.php';
-require_once __DIR__ . '/includes/DiSC_Admin_Manage_Tests.php';
-require_once __DIR__ . '/includes/DiSC_Admin_Manage_Personality_Types.php';
-require_once __DIR__ . '/includes/DiSC_Admin_View_Results.php';
+require_once __DIR__ . '/includes/admin/DiSC_Admin_Base.php';
+require_once __DIR__ . '/includes/admin/DiSC_Admin_Manage_Tests.php';
+require_once __DIR__ . '/includes/admin/DiSC_Admin_Manage_Personality_Types.php';
+require_once __DIR__ . '/includes/admin/DiSC_Admin_View_Results.php';
+require_once __DIR__ . '/includes/core/DB_Manager.php';
 require_once __DIR__ . '/includes/core/DiSC_Report_Generator.php';
 require_once __DIR__ . '/includes/core/DiSC_Settings.php';
 require_once __DIR__ . '/includes/frontend/DiSC_Frontend_Assessment_Form.php';
