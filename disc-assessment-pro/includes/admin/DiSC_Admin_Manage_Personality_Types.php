@@ -72,7 +72,7 @@ class DiSC_Admin_Manage_Personality_Types extends DiSC_Admin_Base {
         if (file_exists($file_path)) {
             include $file_path;
         } else {
-            wp_die(__('The requested file could not be found.'));
+            wp_die(__('The requested file could not be found. Please ensure the file exists in the correct directory.'));
         }
     }
 }
