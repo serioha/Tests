@@ -23,10 +23,17 @@ class DiSC_Admin_Manage_Personality_Types extends DiSC_Admin_Base {
         global $wpdb;
         $types = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}disc_personality_types");
 
+        // Handle the custom action
+        if (isset($_GET['action']) && $_GET['action'] === 'create_new_type') {
+            $create_personality_type = new Create_Personality_Type($wpdb);
+            $create_personality_type->render();
+            return;
+        }
+
         ?>
         <div class="wrap">
             <h1>Manage Personality Types</h1>
-            <a href="<?php echo admin_url('admin.php?page=create_personality_type'); ?>" class="page-title-action">Create New Type</a>
+            <a href="<?php echo admin_url('admin.php?page=disc_manage_personality_types&action=create_new_type'); ?>" class="page-title-action">Create New Type</a>
             <table class="wp-list-table widefat fixed striped">
                 <thead>
                     <tr>
