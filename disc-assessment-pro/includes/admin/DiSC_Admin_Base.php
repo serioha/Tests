@@ -41,7 +41,7 @@ class DiSC_Admin_Base {
 
     public function render_access_denied() {
         echo '<h1>Access Denied</h1>';
-        echo '<p>Sorry, you are not allowed to access this page.</p>';
+        echo '<p>Sorry, you do not have sufficient permissions to access this page.</p>';
     }
 }
 ?>
