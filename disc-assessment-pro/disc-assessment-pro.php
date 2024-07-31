@@ -58,7 +58,6 @@ class DiSC_Plugin {
     }
 
     public function render_menu() {
-        error_log('This is call from menu rendering');
         echo '<h1>DiSC Assessment</h1>';
         echo '<p>Welcome to the DiSC Assessment plugin!</p>';
     }
