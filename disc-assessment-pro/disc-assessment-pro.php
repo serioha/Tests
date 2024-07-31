@@ -76,6 +76,7 @@ require_once __DIR__ . '/includes/admin/DiSC_Admin_Base.php';
 require_once __DIR__ . '/includes/admin/DiSC_Admin_Manage_Tests.php';
 require_once __DIR__ . '/includes/admin/DiSC_Admin_Manage_Personality_Types.php';
 require_once __DIR__ . '/includes/admin/DiSC_Admin_View_Results.php';
+require_once __DIR__ . '/includes/admin/DiSC_Admin_Manage_Reports.php'; // Added this line
 require_once __DIR__ . '/includes/core/DB_Manager.php';
 require_once __DIR__ . '/includes/core/DiSC_Report_Generator.php';
 require_once __DIR__ . '/includes/core/DiSC_Settings.php';
