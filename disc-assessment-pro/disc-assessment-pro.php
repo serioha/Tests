@@ -5,6 +5,22 @@ Description: A plugin to manage DiSC assessments and generate detailed reports
 Version: 1.0.0
 */
 
+require_once __DIR__ . '/includes/admin/DiSC_Admin_Base.php';
+require_once __DIR__ . '/includes/admin/DiSC_Admin_Manage_Tests.php';
+require_once __DIR__ . '/includes/admin/DiSC_Admin_Manage_Personality_Types.php';
+require_once __DIR__ . '/includes/admin/DiSC_Admin_View_Results.php';
+require_once __DIR__ . '/includes/admin/DiSC_Admin_Manage_Reports.php';
+require_once __DIR__ . '/includes/core/DB_Manager.php';
+require_once __DIR__ . '/includes/core/DiSC_Report_Generator.php';
+require_once __DIR__ . '/includes/core/DiSC_Settings.php';
+require_once __DIR__ . '/includes/frontend/DiSC_Frontend_Assessment_Form.php';
+require_once __DIR__ . '/includes/frontend/DiSC_Frontend_Base.php';
+require_once __DIR__ . '/includes/frontend/DiSC_Frontend_Result_Display.php';
+require_once __DIR__ . '/includes/models/DiSC_Reporting.php';
+require_once __DIR__ . '/includes/models/DiSC_Tests.php';
+require_once __DIR__ . '/includes/models/DiSC_User.php';
+require_once __DIR__ . '/includes/admin/create-personality-type.php'; // Corrected path
+
 class DiSC_Plugin {
     private $db_manager;
     private $admin_base;
@@ -51,9 +67,9 @@ class DiSC_Plugin {
         $this->admin_base->add_menu_item('DiSC Assessment', 'disc-assessment', 'manage_options', array($this, 'render_menu'));
         
         // Add submenus
+        $this->admin_base->add_submenu_item('disc-assessment', 'Manage Personality Types', 'manage-personality-types', 'manage_options', array(new DiSC_Admin_Manage_Personality_Types($wpdb), 'display_personality_types_page'));
         $this->admin_base->add_submenu_item('disc-assessment', 'Manage Tests', 'manage-tests', 'manage_options', array(new DiSC_Admin_Manage_Tests($wpdb), 'render_test_manager'));
-        $this->admin_base->add_submenu_item('disc-assessment', 'Manage Personality Types', 'manage-personality-types', 'manage_options', array(new DiSC_Admin_Manage_Personality_Types($wpdb), 'render_personality_types_manager'));
-        $this->admin_base->add_submenu_item('disc-assessment', 'View Results', 'view-results', 'manage_options', array(new DiSC_Admin_View_Results($wpdb), 'render_results'));
+        $this->admin_base->add_submenu_item('disc-assessment', 'View Results', 'view-results', 'manage_options', array(new DiSC_Admin_View_Results($wpdb), 'render_results_view'));
         $this->admin_base->add_submenu_item('disc-assessment', 'Manage Reports', 'manage-reports', 'manage_options', array(new DiSC_Admin_Manage_Reports($wpdb), 'render_report_manager'));
     }
 
@@ -71,21 +87,6 @@ class DiSC_Plugin {
     }
 }
 
-require_once __DIR__ . '/includes/admin/DiSC_Admin_Base.php';
-require_once __DIR__ . '/includes/admin/DiSC_Admin_Manage_Tests.php';
-require_once __DIR__ . '/includes/admin/DiSC_Admin_Manage_Personality_Types.php';
-require_once __DIR__ . '/includes/admin/DiSC_Admin_View_Results.php';
-require_once __DIR__ . '/includes/admin/DiSC_Admin_Manage_Reports.php'; // Added this line
-require_once __DIR__ . '/includes/core/DB_Manager.php';
-require_once __DIR__ . '/includes/core/DiSC_Report_Generator.php';
-require_once __DIR__ . '/includes/core/DiSC_Settings.php';
-require_once __DIR__ . '/includes/frontend/DiSC_Frontend_Assessment_Form.php';
-require_once __DIR__ . '/includes/frontend/DiSC_Frontend_Base.php';
-require_once __DIR__ . '/includes/frontend/DiSC_Frontend_Result_Display.php';
-require_once __DIR__ . '/includes/models/DiSC_Reporting.php';
-require_once __DIR__ . '/includes/models/DiSC_Tests.php';
-require_once __DIR__ . '/includes/models/DiSC_User.php';
-
 class DiSC_Activator {
     public static function activate() {
         DB_Manager::create_table();
@@ -97,6 +98,7 @@ class DiSC_Deactivator {
         DB_Manager::drop_table();
     }
 }
+
 register_activation_hook(__FILE__, array('DiSC_Activator', 'activate'));
 register_deactivation_hook(__FILE__, array('DiSC_Deactivator', 'deactivate'));
 

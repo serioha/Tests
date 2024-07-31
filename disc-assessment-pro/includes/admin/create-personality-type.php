@@ -48,13 +48,8 @@ class Create_Personality_Type extends DiSC_Admin_Base {
         echo '<textarea name="natural_description" required></textarea>';
         echo '<label for="coaching_tips">Coaching Tips</label>';
         echo '<textarea name="coaching_tips" required></textarea>';
-        echo '<input type="submit" name="save_personality_type" value="Save Personality Type" />';
-        echo '<a href="' . admin_url('admin.php?page=disc_manage_personality_types') . '" class="button">Back to Personality Types</a>';
+        echo '<input type="submit" name="save_personality_type" value="Save" class="button button-primary" />';
         echo '</form>';
     }
 }
-
-global $wpdb;
-$create_personality_type = new Create_Personality_Type($wpdb);
-$create_personality_type->render();
 ?>

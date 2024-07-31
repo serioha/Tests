@@ -1,10 +1,5 @@
 <?php
-// Ensure this file is being included correctly
-if (!defined('ABSPATH')) {
-    exit; // Exit if accessed directly
-}
-
-require_once __DIR__ . '/create-personality-type.php'; // Ensure the class is included
+require_once __DIR__ . '/DiSC_Admin_Base.php';
 
 class DiSC_Admin_Manage_Personality_Types extends DiSC_Admin_Base {
     public function __construct($wpdb) {
@@ -12,31 +7,33 @@ class DiSC_Admin_Manage_Personality_Types extends DiSC_Admin_Base {
         add_action('admin_menu', array($this, 'add_menu_item'));
     }
 
-    public function add_menu_item($menu_title, $menu_slug, $capability, $callback = null) {
-        add_submenu_page('DiSC Assessment', 'Manage Personality Types', 'Manage Personality Types', 'manage_options', 'manage_personality_types', array($this, 'render_personality_types_manager'));
-        add_submenu_page('DiSC Assessment', 'Create Personality Type', 'Create Personality Type', 'manage_options', 'create_personality_type', array(new Create_Personality_Type($this->wpdb), 'render'));
-        add_submenu_page(null, 'Edit Personality Type', 'Edit Personality Type', 'manage_options', 'edit_personality_type', array($this, 'display_edit_personality_type_page'));
+    public function add_menu_item($menu_title = 'Manage Personality Types', $menu_slug = 'disc_manage_personality_types', $capability = 'manage_options', $callback = null) {
+        add_menu_page(
+            $menu_title,
+            'Personality Types',
+            $capability,
+            $menu_slug,
+            array($this, 'display_personality_types_page'),
+            'dashicons-admin-users',
+            6
+        );
     }
 
-    public function render_personality_types_manager() {
-        // Check if the user has the right permissions
-        if (!current_user_can('manage_options')) {
-            wp_die(__('You do not have sufficient permissions to access this page.'));
-        }
-
+    public function display_personality_types_page() {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'disc_personality_types';
+        $types = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}disc_personality_types");
 
-        // Fetch personality types
-        $types = $wpdb->get_results("SELECT * FROM $table_name");
+        // Handle the custom action
+        if (isset($_GET['action']) && $_GET['action'] === 'create_new_type') {
+            $create_personality_type = new Create_Personality_Type($wpdb);
+            $create_personality_type->render();
+            return;
+        }
 
         ?>
         <div class="wrap">
             <h1>Manage Personality Types</h1>
-
-            <a href="<?php echo admin_url('admin.php?page=create_personality_type'); ?>" class="button button-primary">Create New Type</a>
-
-            <h2>Existing Personality Types</h2>
+            <a href="<?php echo admin_url('admin.php?page=disc_manage_personality_types&action=create_new_type'); ?>" class="page-title-action">Create New Type</a>
             <table class="wp-list-table widefat fixed striped">
                 <thead>
                     <tr>
