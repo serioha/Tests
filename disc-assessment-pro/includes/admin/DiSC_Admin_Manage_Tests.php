@@ -29,7 +29,7 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
         $tests = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}disc_tests");
 
         echo '<h1>Manage Tests</h1>';
-        echo '<a href="' . admin_url('includes/admin/create-test.php') . '" class="button">Create New Test</a>';
+        echo '<a href="' . admin_url('admin.php?page=disc_manage_tests&action=create_test') . '" class="button">Create New Test</a>';
         echo '<a href="#" class="button">Import JSON</a>';
         echo '<a href="#" class="button">Export JSON</a>';
         echo '<table class="widefat fixed">';
