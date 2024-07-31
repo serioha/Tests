@@ -24,13 +24,13 @@ class DiSC_Plugin {
         register_deactivation_hook(__FILE__, array($this, 'deactivate'));
 
         // Add admin menu items
-        $this->admin_base->add_menu_item('DiSC Assessment', 'disc-assessment', 'manage_options', 'disc-assessment', array($this, 'render_menu'));
+        $this->admin_base->add_menu_item('DiSC Assessment', 'disc-assessment', 'manage_options', array($this, 'render_menu'));
         
         // Add submenus
-        $this->admin_base->add_menu_item('Manage Tests', 'manage-tests', 'manage_options', array(new DiSC_Admin_Manage_Tests($wpdb), 'render_test_manager'));
-        $this->admin_base->add_menu_item('Manage Personality Types', 'manage-personality-types', 'manage_options', array(new DiSC_Admin_Manage_Personality_Types($wpdb), 'render_personality_types_manager'));
-        $this->admin_base->add_menu_item('View Results', 'view-results', 'manage_options', array(new DiSC_Admin_View_Results($wpdb), 'render_results'));
-        $this->admin_base->add_menu_item('Manage Reports', 'manage-reports', 'manage_options', array(new DiSC_Admin_Manage_Reports($wpdb), 'render_report_manager'));
+        $this->admin_base->add_submenu_item('disc-assessment', 'Manage Tests', 'manage-tests', 'manage_options', array(new DiSC_Admin_Manage_Tests($wpdb), 'render_test_manager'));
+        $this->admin_base->add_submenu_item('disc-assessment', 'Manage Personality Types', 'manage-personality-types', 'manage_options', array(new DiSC_Admin_Manage_Personality_Types($wpdb), 'render_personality_types_manager'));
+        $this->admin_base->add_submenu_item('disc-assessment', 'View Results', 'view-results', 'manage_options', array(new DiSC_Admin_View_Results($wpdb), 'render_results'));
+        $this->admin_base->add_submenu_item('disc-assessment', 'Manage Reports', 'manage-reports', 'manage_options', array(new DiSC_Admin_Manage_Reports($wpdb), 'render_report_manager'));
 
         // Add settings
         $this->settings->add_settings();
