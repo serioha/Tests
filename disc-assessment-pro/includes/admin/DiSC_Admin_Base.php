@@ -19,6 +19,8 @@ class DiSC_Admin_Base {
 
     public function render_diSC_assessment() {
         // Render the DiSC assessment interface
+        echo '<h1>DiSC Assessment</h1>';
+        echo '<p>Welcome to the DiSC Assessment plugin!</p>';
     }
 }
 ?>
