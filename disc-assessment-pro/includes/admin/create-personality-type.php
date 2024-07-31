@@ -8,7 +8,7 @@ class Create_Personality_Type extends DiSC_Admin_Base {
 
     public function render() {
         // Check user capability after WordPress has fully loaded
-        if (!function_exists('wp_get_current_user') || !current_user_can('manage_options')) {
+        if (!current_user_can('manage_options')) {
             return $this->render_access_denied();
         }
 
