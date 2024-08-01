@@ -14,42 +14,98 @@ class Create_Test extends DiSC_Admin_Base {
     }
 
     public function render() {
-        // Handle form submission
-        if (isset($_POST['save_test'])) {
-            $test_title = sanitize_text_field($_POST['test_title']);
-            $test_description = sanitize_textarea_field($_POST['test_description']);
+        $test_id = isset($_GET['test_id']) ? intval($_GET['test_id']) : 0;
+        $table_name = $this->wpdb->prefix . 'disc_tests';
 
-            global $wpdb;
-            $wpdb->insert("{$wpdb->prefix}disc_tests", array(
-                'test_name' => $test_title,
-                'test_description' => $test_description,
-                'created_at' => current_time('mysql'),
-                'updated_at' => current_time('mysql')
-            ));
+        $test_name = '';
+        $test_description = '';
 
-            // Get the last inserted ID
-            $new_test_id = $wpdb->insert_id;
-
-            // Log the new test ID
-            error_log("New test created with ID: " . $new_test_id);
-
-            // Redirect to the tests page after saving
-            wp_redirect(admin_url('admin.php?page=disc_manage_tests'));
-            exit;
+        if ($test_id > 0) {
+            $test = $this->wpdb->get_row($this->wpdb->prepare("SELECT * FROM $table_name WHERE test_id = %d", $test_id));
+            if ($test) {
+                $test_name = $test->test_name ?? '';
+                $test_description = $test->test_description ?? '';
+            }
         }
 
-        echo '<h1>Create New Test</h1>';
-        echo '<form method="post" action="">';
-        echo '<label for="test_title">Test Title</label>';
-        echo '<input type="text" name="test_title" required />';
-        echo '<label for="test_description">Test Description</label>';
-        echo '<textarea name="test_description" required></textarea>';
-        echo '<input type="submit" name="save_test" value="Save Test" />';
-        echo '<a href="' . admin_url('admin.php?page=disc_manage_tests') . '" class="button">Back to Tests</a>';
-        echo '</form>';
+        ?>
+        <div class="wrap">
+            <h1><?php echo $test_id > 0 ? 'Edit Test' : 'Create New Test'; ?></h1>
+
+            <a href="<?php echo admin_url('admin.php?page=disc_manage_tests'); ?>" class="button">Back to Tests</a>
+
+            <form method="post">
+                <input type="hidden" name="action" value="<?php echo $test_id > 0 ? 'edit' : 'add'; ?>">
+                <?php if ($test_id > 0): ?>
+                    <input type="hidden" name="test_id" value="<?php echo esc_attr($test_id); ?>">
+                <?php endif; ?>
+
+                <h3>Test Name</h3>
+                <input type="text" name="test_name" value="<?php echo esc_attr($test_name); ?>" style="width: 100%;" required>
+
+                <h3>Test Description</h3>
+                <?php
+                wp_editor(
+                    $test_description,
+                    'test_description',
+                    array(
+                        'wpautop'       => true,
+                        'media_buttons' => true,
+                        'textarea_name' => 'test_description',
+                        'textarea_rows' => 10,
+                        'teeny'         => false,
+                        'quicktags'     => true
+                    )
+                );
+                ?>
+
+                <button type="submit" class="button button-primary"><?php echo $test_id > 0 ? 'Save Changes' : 'Add Test'; ?></button>
+            </form>
+        </div>
+
+        <?php
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->handle_form_submission();
+        }
+    }
+
+    private function handle_form_submission() {
+        $action = sanitize_text_field($_POST['action']);
+
+        $test_name = sanitize_text_field($_POST['test_name']);
+        $test_description = wp_kses_post($_POST['test_description']);
+        $current_time = current_time('mysql');
+
+        $table_name = $this->wpdb->prefix . 'disc_tests';
+
+        if ($action === 'add') {
+            $this->wpdb->insert(
+                $table_name,
+                [
+                    'test_name' => $test_name,
+                    'test_description' => $test_description,
+                    'created_at' => $current_time,
+                    'updated_at' => $current_time,
+                ],
+                ['%s', '%s', '%s', '%s']
+            );
+        } elseif ($action === 'edit') {
+            $test_id = intval($_POST['test_id']);
+
+            $this->wpdb->update(
+                $table_name,
+                [
+                    'test_name' => $test_name,
+                    'test_description' => $test_description,
+                    'updated_at' => $current_time,
+                ],
+                ['test_id' => $test_id],
+                ['%s', '%s', '%s'],
+                ['%d']
+            );
+        }
+
+        echo '<script type="text/javascript">window.location.href="' . admin_url('admin.php?page=disc_manage_tests') . '";</script>';
+        exit;
     }
 }
-
-global $wpdb;
-$create_test = new Create_Test($wpdb);
-$create_test->render();

@@ -1,101 +1,87 @@
 <?php
+require_once __DIR__ . '/DiSC_Admin_Base.php';
+
 class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
     public function __construct($wpdb) {
         parent::__construct($wpdb);
-        add_action('admin_init', array($this, 'check_user_capability'));
+        add_action('admin_menu', array($this, 'add_menu_item'));
+        add_action('admin_post_delete_test', array($this, 'delete_test'));
     }
 
-    public function check_user_capability() {
+    public function add_menu_item($menu_title = 'Manage Tests', $menu_slug = 'disc_manage_tests', $capability = 'manage_options', $callback = null) {
+        add_menu_page(
+            $menu_title,
+            'Tests',
+            $capability,
+            $menu_slug,
+            array($this, 'display_tests_page'),
+            'dashicons-welcome-learn-more',
+            6
+        );
+    }
+    
+
+    public function display_tests_page() {
+        if (isset($_GET['action']) && ($_GET['action'] === 'create_new_test' || ($_GET['action'] === 'edit' && isset($_GET['test_id'])))) {
+            $create_test = new Create_Test($this->wpdb);
+            $create_test->render();
+        } else {
+            $this->render_tests_list();
+        }
+    }
+
+    private function render_tests_list() {
+        $tests = $this->wpdb->get_results("SELECT * FROM {$this->wpdb->prefix}disc_tests");
+
+        ?>
+        <div class="wrap">
+            <h1>Manage Tests</h1>
+            <a href="<?php echo admin_url('admin.php?page=disc_manage_tests&action=create_new_test'); ?>" class="page-title-action">Create New Test</a>
+            <table class="wp-list-table widefat fixed striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Test Name</th>
+                        <th>Description</th>
+                        <th>Created At</th>
+                        <th>Updated At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($tests as $test): ?>
+                        <tr>
+                            <td><?php echo esc_html($test->test_id); ?></td>
+                            <td><?php echo esc_html($test->test_name); ?></td>
+                            <td><?php echo wp_kses_post($test->test_description); ?></td>
+                            <td><?php echo esc_html($test->created_at); ?></td>
+                            <td><?php echo esc_html($test->updated_at); ?></td>
+                            <td>
+                                <a href="<?php echo admin_url('admin.php?page=disc_manage_tests&action=edit&test_id=' . $test->test_id); ?>" class="button">Edit</a>
+                                <a href="<?php echo admin_url('admin-post.php?action=delete_test&test_id=' . $test->test_id); ?>" class="button" onclick="return confirm('Are you sure you want to delete this test?');">Delete</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <?php
+    }
+
+    public function delete_test() {
         if (!current_user_can('manage_options')) {
             wp_die(__('You do not have sufficient permissions to access this page.'));
         }
-    }
 
-    public function add_menu_item($menu_title, $menu_slug, $capability, $callback = null) {
-        add_submenu_page('DiSC Assessment', 'Manage Tests', 'Manage Tests', $capability, $menu_slug, array($this, 'render_test_manager'));
-        // Register hidden submenu for creating a new test
-        add_submenu_page(null, 'Create New Test', 'Create New Test', $capability, 'disc_create_test', array(new Create_Test($this->wpdb), 'render'));
-        // Register hidden submenu for editing a test
-        add_submenu_page(null, 'Edit Test', 'Edit Test', $capability, 'disc_edit_test', array($this, 'render_edit_test'));
-    }
-
-    public function render_test_manager() {
-        // Handle actions
-        if (isset($_GET['action'])) {
-            if ($_GET['action'] == 'create_test') {
-                return $this->render_create_test();
-            } elseif ($_GET['action'] == 'edit_test' && isset($_GET['test_id'])) {
-                return $this->render_edit_test($_GET['test_id']);
-            } elseif ($_GET['action'] == 'manage_questions' && isset($_GET['test_id'])) {
-                return $this->render_manage_questions($_GET['test_id']);
-            }
+        if (isset($_GET['test_id'])) {
+            $test_id = intval($_GET['test_id']);
+            $this->wpdb->delete("{$this->wpdb->prefix}disc_tests", array('test_id' => $test_id));
         }
 
-        // Display the tests table
-        $this->display_tests_table();
-    }
-
-    private function display_tests_table() {
-        global $wpdb;
-        $tests = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}disc_tests");
-
-        echo '<h1>Manage Tests</h1>';
-        echo '<a href="' . admin_url('admin.php?page=disc_manage_tests&action=create_test') . '" class="button">Create New Test</a>';
-        echo '<a href="#" class="button">Import JSON</a>';
-        echo '<a href="#" class="button">Export JSON</a>';
-        echo '<table class="widefat fixed">';
-        echo '<thead><tr><th><input type="checkbox" /></th><th>ID</th><th>Title</th><th>Description</th><th>Shortcode</th><th>No of Questions</th><th>Created on</th><th>Updated on</th><th>View Results</th><th>Manage Questions</th><th>Actions</th></tr></thead>';
-        echo '<tbody>';
-
-        foreach ($tests as $test) {
-            echo '<tr>';
-            echo '<td><input type="checkbox" value="' . $test->test_id . '" /></td>';
-            echo '<td>' . $test->test_id . '</td>';
-            echo '<td>' . $test->test_name . '</td>';
-            echo '<td>' . $test->test_description . '</td>';
-            echo '<td>[test_shortcode_' . $test->test_id . ']</td>';
-            echo '<td>' . $this->get_question_count($test->test_id) . '</td>';
-            echo '<td>' . $test->created_at . '</td>';
-            echo '<td>' . $test->updated_at . '</td>';
-            echo '<td><a href="' . admin_url('admin.php?page=disc_view_results&test_id=' . $test->test_id) . '">View Results</a></td>';
-            echo '<td><a href="' . admin_url('admin.php?page=disc_manage_tests&action=manage_questions&test_id=' . $test->test_id) . '">Manage Questions</a></td>';
-            echo '<td><a href="' . admin_url('admin.php?page=disc_manage_tests&action=edit_test&test_id=' . $test->test_id) . '">Edit</a> | <a href="' . admin_url('admin.php?page=disc_manage_tests&action=delete_test&test_id=' . $test->test_id) . '">Delete</a></td>';
-            echo '</tr>';
-        }
-
-        echo '</tbody></table>';
-    }
-
-    private function get_question_count($test_id) {
-        global $wpdb;
-        return $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM {$wpdb->prefix}disc_questions WHERE test_id = %d", $test_id));
-    }
-
-    private function render_edit_test($test_id) {
-        global $wpdb;
-        $test = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}disc_tests WHERE test_id = %d", $test_id));
-
-        if ($test) {
-            echo '<h1>Edit Test: ' . esc_html($test->test_name) . '</h1>';
-            echo '<form method="post" action="">';
-            echo '<input type="hidden" name="test_id" value="' . $test_id . '" />';
-            echo '<label for="test_title">Test Title</label>';
-            echo '<input type="text" name="test_title" value="' . esc_html($test->test_name) . '" required />';
-            echo '<label for="test_description">Test Description</label>';
-            echo '<textarea name="test_description" required>' . esc_html($test->test_description) . '</textarea>';
-            echo '<input type="submit" name="update_test" value="Update Test" />';
-            echo '<a href="' . admin_url('admin.php?page=disc_manage_tests') . '" class="button">Back to Tests</a>';
-            echo '</form>';
-        } else {
-            echo '<p>Test not found.</p>';
-        }
-    }
-
-    private function render_manage_questions($test_id) {
-        // Implement the manage questions functionality here
-        echo '<h1>Manage Questions for Test ID: ' . $test_id . '</h1>';
-        echo '<a href="' . admin_url('admin.php?page=disc_manage_tests') . '" class="button">Back to Tests</a>';
-        // Display questions table here
+        wp_redirect(admin_url('admin.php?page=disc_manage_tests'));
+        exit;
     }
 }
-?>
+
+global $wpdb;
+$tests_manager = new DiSC_Admin_Manage_Tests($wpdb);
