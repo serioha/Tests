@@ -29,6 +29,11 @@ class Create_Test extends DiSC_Admin_Base {
         }
 
         ?>
+        // Handle the form submission at the beginning
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->handle_form_submission();
+        }
+
         <div class="wrap" style="clear: both;">
             <h1><?php echo $test_id > 0 ? 'Edit Test' : 'Create New Test'; ?></h1>
 
@@ -65,6 +70,7 @@ class Create_Test extends DiSC_Admin_Base {
 
         <?php
         // Remove the form submission handling from here
+        // This is now handled at the top of the render method
     }
 
     private function handle_form_submission() {
