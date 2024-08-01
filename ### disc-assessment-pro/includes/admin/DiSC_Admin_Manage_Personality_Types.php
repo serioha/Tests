@@ -5,6 +5,7 @@ class DiSC_Admin_Manage_Personality_Types extends DiSC_Admin_Base {
     public function __construct($wpdb) {
         parent::__construct($wpdb);
         add_action('admin_menu', array($this, 'add_menu_item'));
+        add_action('admin_post_delete_type', array($this, 'delete_personality_type'));
     }
 
     public function add_menu_item($menu_title = 'Manage Personality Types', $menu_slug = 'disc_manage_personality_types', $capability = 'manage_options', $callback = null) {
@@ -65,6 +66,22 @@ class DiSC_Admin_Manage_Personality_Types extends DiSC_Admin_Base {
             </table>
         </div>
         <?php
+    }
+
+    public function delete_personality_type() {
+        global $wpdb;
+
+        if (!current_user_can('manage_options')) {
+            wp_die(__('You do not have sufficient permissions to access this page.'));
+        }
+
+        if (isset($_GET['type_id'])) {
+            $type_id = intval($_GET['type_id']);
+            $wpdb->delete("{$wpdb->prefix}disc_personality_types", array('type_id' => $type_id));
+        }
+
+        wp_redirect(admin_url('admin.php?page=disc_manage_personality_types'));
+        exit;
     }
 }
 
