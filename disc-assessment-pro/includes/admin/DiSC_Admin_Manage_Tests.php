@@ -27,6 +27,8 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
             $create_test->render();
             return; // Prevent further execution
         }
+        
+        // Ensure that the rendering logic does not duplicate content
         // Only render the tests list if no action is taken
         if (!isset($_GET['action'])) {
             $this->render_tests_list();
