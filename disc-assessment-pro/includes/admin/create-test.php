@@ -29,7 +29,6 @@ class Create_Test extends DiSC_Admin_Base {
         }
 
         ?>
-        // Handle the form submission at the beginning
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->handle_form_submission();
         }
