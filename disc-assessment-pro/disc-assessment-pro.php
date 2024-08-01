@@ -41,7 +41,7 @@ class DiSC_Plugin {
         $this->settings = new DiSC_Settings($wpdb);
         $this->report_generator = new DiSC_Report_Generator($wpdb);
         $this->user = new DiSC_User($wpdb);
-        $this->tests = new DiSC_Admin_Manage_Tests($wpdb);
+        //$this->tests = new DiSC_Admin_Manage_Tests($wpdb);
         $this->reporting = new DiSC_Reporting($wpdb);
         $this->assessment_form = new DiSC_Frontend_Assessment_Form($wpdb);
         $this->result_display = new DiSC_Frontend_Result_Display($wpdb);
