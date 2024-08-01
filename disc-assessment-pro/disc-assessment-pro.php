@@ -19,7 +19,8 @@ require_once __DIR__ . '/includes/frontend/DiSC_Frontend_Result_Display.php';
 require_once __DIR__ . '/includes/models/DiSC_Reporting.php';
 require_once __DIR__ . '/includes/models/DiSC_Tests.php';
 require_once __DIR__ . '/includes/models/DiSC_User.php';
-require_once __DIR__ . '/includes/admin/create-personality-type.php'; // Corrected path
+require_once __DIR__ . '/includes/admin/create-personality-type.php';
+require_once __DIR__ . '/includes/admin/create-test.php';
 
 class DiSC_Plugin {
     private $db_manager;
@@ -40,7 +41,7 @@ class DiSC_Plugin {
         $this->settings = new DiSC_Settings($wpdb);
         $this->report_generator = new DiSC_Report_Generator($wpdb);
         $this->user = new DiSC_User($wpdb);
-        $this->tests = new DiSC_Tests($wpdb);
+        $this->tests = new DiSC_Admin_Manage_Tests($wpdb);
         $this->reporting = new DiSC_Reporting($wpdb);
         $this->assessment_form = new DiSC_Frontend_Assessment_Form($wpdb);
         $this->result_display = new DiSC_Frontend_Result_Display($wpdb);
@@ -68,7 +69,7 @@ class DiSC_Plugin {
         
         // Add submenus
         $this->admin_base->add_submenu_item('disc-assessment', 'Manage Personality Types', 'manage-personality-types', 'manage_options', array(new DiSC_Admin_Manage_Personality_Types($wpdb), 'display_personality_types_page'));
-        $this->admin_base->add_submenu_item('disc-assessment', 'Manage Tests', 'manage-tests', 'manage_options', array(new DiSC_Admin_Manage_Tests($wpdb), 'render_test_manager'));
+        $this->admin_base->add_submenu_item('disc-assessment', 'Manage Tests', 'manage-tests', 'manage_options', array(new DiSC_Admin_Manage_Tests($wpdb), 'display_tests_page'));
         $this->admin_base->add_submenu_item('disc-assessment', 'View Results', 'view-results', 'manage_options', array(new DiSC_Admin_View_Results($wpdb), 'render_results_view'));
         $this->admin_base->add_submenu_item('disc-assessment', 'Manage Reports', 'manage-reports', 'manage_options', array(new DiSC_Admin_Manage_Reports($wpdb), 'render_report_manager'));
     }
