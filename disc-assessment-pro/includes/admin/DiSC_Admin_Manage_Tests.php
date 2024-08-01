@@ -25,9 +25,9 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
         if (isset($_GET['action']) && ($_GET['action'] === 'create_new_test' || ($_GET['action'] === 'edit' && isset($_GET['test_id'])))) {
             $create_test = new Create_Test($this->wpdb);
             $create_test->render();
-        } else {
-            $this->render_tests_list();
+            return; // Prevent further execution
         }
+        $this->render_tests_list();
     }
 
     private function render_tests_list() {
