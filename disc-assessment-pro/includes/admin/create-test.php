@@ -14,6 +14,10 @@ class Create_Test extends DiSC_Admin_Base {
     }
 
     public function render() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->handle_form_submission();
+        }
+
         $test_id = isset($_GET['test_id']) ? intval($_GET['test_id']) : 0;
         $table_name = $this->wpdb->prefix . 'disc_tests';
 
@@ -33,7 +37,7 @@ class Create_Test extends DiSC_Admin_Base {
             $this->handle_form_submission();
         }
 
-        <div class="wrap" style="clear: both;">
+        <div class="wrap">
             <h1><?php echo $test_id > 0 ? 'Edit Test' : 'Create New Test'; ?></h1>
 
             <a href="<?php echo admin_url('admin.php?page=disc_manage_tests'); ?>" class="button">Back to Tests</a>
