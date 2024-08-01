@@ -19,24 +19,17 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
             6
         );
     }
-    
 
     public function display_tests_page() {
-        if (isset($_GET['action']) && ($_GET['action'] === 'create_new_test' || ($_GET['action'] === 'edit' && isset($_GET['test_id'])))) {
-            $create_test = new Create_Test($this->wpdb);
-            $create_test->render();
-            return; // Prevent further execution
-        }
-        
-        // Ensure that the rendering logic does not duplicate content
-        // Only render the tests list if no action is taken
-        if (!isset($_GET['action'])) {
-            $this->render_tests_list();
-        }
-    }
+        global $wpdb;
+        $tests = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}disc_tests");
 
-    private function render_tests_list() {
-        $tests = $this->wpdb->get_results("SELECT * FROM {$this->wpdb->prefix}disc_tests");
+        // Handle the custom action
+        if (isset($_GET['action']) && ($_GET['action'] === 'create_new_test' || $_GET['action'] === 'edit' && isset($_GET['test_id']))) {
+            $create_test = new Create_Test($wpdb);
+            $create_test->render();
+            return;
+        }
 
         ?>
         <div class="wrap">
@@ -74,13 +67,15 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
     }
 
     public function delete_test() {
+        global $wpdb;
+
         if (!current_user_can('manage_options')) {
             wp_die(__('You do not have sufficient permissions to access this page.'));
         }
 
         if (isset($_GET['test_id'])) {
             $test_id = intval($_GET['test_id']);
-            $this->wpdb->delete("{$this->wpdb->prefix}disc_tests", array('test_id' => $test_id));
+            $wpdb->delete("{$wpdb->prefix}disc_tests", array('test_id' => $test_id));
         }
 
         wp_redirect(admin_url('admin.php?page=disc_manage_tests'));
@@ -90,3 +85,4 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
 
 global $wpdb;
 $tests_manager = new DiSC_Admin_Manage_Tests($wpdb);
+?>
