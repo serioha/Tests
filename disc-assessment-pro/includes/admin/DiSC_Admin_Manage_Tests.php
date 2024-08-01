@@ -24,12 +24,7 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
         global $wpdb;
         $tests = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}disc_tests");
 
-        // Handle the custom action
-        if (isset($_GET['action']) && ($_GET['action'] === 'create_new_test' || $_GET['action'] === 'edit' && isset($_GET['test_id']))) {
-            $create_test = new Create_Test($wpdb);
-            $create_test->render();
-            return;
-        }
+        // Remove the custom action handling to prevent duplicate rendering
 
         ?>
         <div class="wrap">
