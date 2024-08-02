@@ -107,15 +107,25 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
             wp_die(__('You do not have sufficient permissions to access this page.'));
         }
 
+        if (!isset($_FILES['json_file']) || $_FILES['json_file']['error'] !== UPLOAD_ERR_OK) {
+            wp_redirect(admin_url('admin.php?page=disc_manage_tests&import_status=error'));
+            exit;
+        }
+
         $json_data = file_get_contents($_FILES['json_file']['tmp_name']);
         $data = json_decode($json_data, true);
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
+        if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
             wp_redirect(admin_url('admin.php?page=disc_manage_tests&import_status=error'));
             exit;
         }
 
         foreach ($data as $test) {
+            if (!isset($test['test_name'], $test['test_description'])) {
+                wp_redirect(admin_url('admin.php?page=disc_manage_tests&import_status=error'));
+                exit;
+            }
+
             $wpdb->insert("{$wpdb->prefix}disc_tests", array(
                 'test_name' => sanitize_text_field($test['test_name']),
                 'test_description' => sanitize_textarea_field($test['test_description']),
