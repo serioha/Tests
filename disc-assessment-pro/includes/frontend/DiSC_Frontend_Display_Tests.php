@@ -18,7 +18,7 @@ class DiSC_Frontend_Display_Tests extends DiSC_Frontend_Base {
         $output = '<div class="disc-tests">';
         foreach ($tests as $test) {
             $output .= '<div class="disc-test">';
-            $output .= '<h2>' . esc_html($test->test_name) . '</h2>';
+            $output .= '<h2>' . esc_html($test->test_name) . ' (ID: ' . esc_html($test->test_id) . ')</h2>';
             $output .= '<p>' . esc_html($test->test_description) . '</p>';
             $output .= '<a href="' . esc_url(admin_url('admin.php?page=disc_view_results&test_id=' . $test->test_id)) . '" class="button">View Results</a>';
             $output .= '</div>';
