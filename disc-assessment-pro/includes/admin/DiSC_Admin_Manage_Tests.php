@@ -100,8 +100,8 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
 
         wp_redirect(admin_url('admin.php?page=disc_manage_tests&import_status=success'));
         exit;
-    }
-        global $wpdb;
+    
+    
 
         if (!current_user_can('manage_options')) {
             wp_die(__('You do not have sufficient permissions to access this page.'));
