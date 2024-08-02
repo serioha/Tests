@@ -63,13 +63,15 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($tests as $test): ?>
+                    <?php foreach ($tests as $test): 
+                        $question_count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM {$wpdb->prefix}disc_questions WHERE test_id = %d", $test->test_id));
+                    ?>
                         <tr>
                             <td><input type="checkbox" /></td>
                             <td><?php echo esc_html($test->test_id); ?></td>
                             <td><?php echo esc_html($test->test_name); ?></td>
                             <td>[display_tests id="<?php echo esc_html($test->test_id); ?>"]</td>
-                            <td><?php echo esc_html($test->no_of_questions); ?></td>
+                            <td><?php echo esc_html($question_count); ?></td>
                             <td><?php echo esc_html($test->created_at); ?></td>
                             <td><?php echo esc_html($test->updated_at); ?></td>
                             <td><a href="<?php echo admin_url('admin.php?page=disc_manage_questions&test_id=' . $test->test_id); ?>" class="button">Manage Questions</a></td>
