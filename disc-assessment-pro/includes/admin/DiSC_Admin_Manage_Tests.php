@@ -6,6 +6,7 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
         parent::__construct($wpdb);
         add_action('admin_menu', array($this, 'add_menu_item'));
         add_action('admin_post_delete_test', array($this, 'delete_test'));
+        add_action('admin_post_import_json', array($this, 'import_json_file')); // Hook for importing JSON
     }
 
     public function add_menu_item($menu_title = 'Manage Tests', $menu_slug = 'disc_manage_tests', $capability = 'manage_options', $callback = null) {
@@ -21,6 +22,7 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
     }
 
     public function display_tests_page() {
+        global $wpdb; // Define $wpdb here
         // Display any messages
         if (isset($_GET['import_status'])) {
             if ($_GET['import_status'] === 'success') {
@@ -29,7 +31,7 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
                 echo '<div class="notice notice-error is-dismissible"><p>Error importing JSON.</p></div>';
             }
         }
-        // This block is misplaced and should be removed
+
         $tests = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}disc_tests");
 
         // Handle the custom action
@@ -76,6 +78,7 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
     }
 
     public function import_json_file() {
+        global $wpdb; // Define $wpdb here
         if (!current_user_can('manage_options')) {
             wp_die(__('You do not have sufficient permissions to access this page.'));
         }
@@ -88,7 +91,6 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
             exit;
         }
 
-        // This block is misplaced and should be removed
         foreach ($data as $test) {
             $wpdb->insert("{$wpdb->prefix}disc_tests", array(
                 'test_name' => sanitize_text_field($test['test_name']),
@@ -100,9 +102,10 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
 
         wp_redirect(admin_url('admin.php?page=disc_manage_tests&import_status=success'));
         exit;
-    
-    
+    }
 
+    public function delete_test() {
+        global $wpdb; // Define $wpdb here
         if (!current_user_can('manage_options')) {
             wp_die(__('You do not have sufficient permissions to access this page.'));
         }
