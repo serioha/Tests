@@ -128,18 +128,23 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
             exit;
         }
 
-        foreach ($data['questions'] as $test) {
-            if (!isset($test['test_name'], $test['test_description'])) {
-                wp_redirect(admin_url('admin.php?page=disc_manage_tests&import_status=error'));
-                exit;
-            }
+        // Insert test data into the database
+        $test_id = $wpdb->insert("{$wpdb->prefix}disc_tests", array(
+            'test_name' => sanitize_text_field($data['test_name']),
+            'test_description' => sanitize_textarea_field($data['test_description']),
+            'created_at' => current_time('mysql'),
+            'updated_at' => current_time('mysql'),
+        ));
 
-            $wpdb->insert("{$wpdb->prefix}disc_tests", array(
-                'test_name' => sanitize_text_field($test['test_name']),
-                'test_description' => sanitize_textarea_field($test['test_description']),
-                'created_at' => current_time('mysql'),
-                'updated_at' => current_time('mysql'),
-            ));
+        // Insert questions associated with the test
+        if ($test_id) {
+            foreach ($data['questions'] as $question) {
+                $wpdb->insert("{$wpdb->prefix}disc_questions", array(
+                    'test_id' => $wpdb->insert_id,
+                    'question' => sanitize_text_field($question['question']),
+                    'answers' => json_encode($question['answers']), // Assuming answers are stored as JSON
+                ));
+            }
         }
 
         wp_redirect(admin_url('admin.php?page=disc_manage_tests&import_status=success'));
