@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/DiSC_Admin_Base.php';
+require_once __DIR__ . '/temp/JSON/validate_json_structure.php'; // Include the validation function
 
 class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
     public function __construct($wpdb) {
@@ -120,7 +121,14 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
             exit;
         }
 
-        foreach ($data as $test) {
+        // Validate JSON structure
+        $validation_result = validate_json_structure($data);
+        if ($validation_result['status'] === 'error') {
+            wp_redirect(admin_url('admin.php?page=disc_manage_tests&import_status=error'));
+            exit;
+        }
+
+        foreach ($data['questions'] as $test) {
             if (!isset($test['test_name'], $test['test_description'])) {
                 wp_redirect(admin_url('admin.php?page=disc_manage_tests&import_status=error'));
                 exit;
