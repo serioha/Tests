@@ -46,6 +46,7 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
             <h1>Manage Tests</h1>
             <a href="<?php echo admin_url('admin.php?page=disc_manage_tests&action=create_new_test'); ?>" class="page-title-action">Create New Test</a>
             <button id="import-json" class="page-title-action">Import JSON</button>
+            <input type="file" id="json-file-input" style="display: none;" accept=".json" />
             <table class="wp-list-table widefat fixed striped">
                 <thead>
                     <tr>
@@ -74,6 +75,29 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
                 </tbody>
             </table>
         </div>
+        <script>
+            document.getElementById('import-json').addEventListener('click', function() {
+                document.getElementById('json-file-input').click();
+            });
+
+            document.getElementById('json-file-input').addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const formData = new FormData();
+                    formData.append('json_file', file);
+                    formData.append('action', 'import_json');
+
+                    fetch('<?php echo admin_url('admin-post.php'); ?>', {
+                        method: 'POST',
+                        body: formData,
+                    }).then(response => {
+                        window.location.href = '<?php echo admin_url('admin.php?page=disc_manage_tests&import_status=success'); ?>';
+                    }).catch(error => {
+                        window.location.href = '<?php echo admin_url('admin.php?page=disc_manage_tests&import_status=error'); ?>';
+                    });
+                }
+            });
+        </script>
         <?php
     }
 
