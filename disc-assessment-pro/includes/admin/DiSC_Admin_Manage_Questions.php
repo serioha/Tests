@@ -48,17 +48,23 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($questions as $question): ?>
+                    <?php if (!empty($questions)): ?>
+                        <?php foreach ($questions as $question): ?>
+                            <tr>
+                                <td><input type="checkbox" /></td>
+                                <td><?php echo esc_html($question->question_id); ?></td>
+                                <td><?php echo esc_html($question->question_text); ?></td>
+                                <td>
+                                    <a href="<?php echo admin_url('admin.php?page=disc_manage_questions&test_id=' . $test_id . '&action=edit&question_id=' . $question->question_id); ?>" class="button">Edit</a>
+                                    <a href="<?php echo admin_url('admin-post.php?action=delete_question&question_id=' . $question->question_id); ?>" class="button" onclick="return confirm('Are you sure you want to delete this question?');">Delete</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
                         <tr>
-                            <td><input type="checkbox" /></td>
-                            <td><?php echo esc_html($question->question_id); ?></td>
-                            <td><?php echo esc_html($question->question_text); ?></td>
-                            <td>
-                                <a href="<?php echo admin_url('admin.php?page=disc_manage_questions&test_id=' . $test_id . '&action=edit&question_id=' . $question->question_id); ?>" class="button">Edit</a>
-                                <a href="<?php echo admin_url('admin-post.php?action=delete_question&question_id=' . $question->question_id); ?>" class="button" onclick="return confirm('Are you sure you want to delete this question?');">Delete</a>
-                            </td>
+                            <td colspan="4">No questions found for this test.</td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
