@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
             formData.append('json_file', file);
             formData.append('action', 'import_json_file');
 
-            fetch('<?php echo admin_url('admin-post.php'); ?>', {
+            fetch('admin-post.php', {
                 method: 'POST',
                 body: formData,
             })

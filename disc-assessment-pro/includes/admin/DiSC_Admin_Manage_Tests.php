@@ -6,7 +6,7 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
         parent::__construct($wpdb);
         add_action('admin_menu', array($this, 'add_menu_item'));
         add_action('admin_post_delete_test', array($this, 'delete_test'));
-    }
+    } // End of import_json_file method
 
     public function add_menu_item($menu_title = 'Manage Tests', $menu_slug = 'disc_manage_tests', $capability = 'manage_options', $callback = null) {
         add_menu_page(
@@ -29,7 +29,7 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
                 echo '<div class="notice notice-error is-dismissible"><p>Error importing JSON.</p></div>';
             }
         }
-        global $wpdb;
+        // This block is misplaced and should be removed
         $tests = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}disc_tests");
 
         // Handle the custom action
