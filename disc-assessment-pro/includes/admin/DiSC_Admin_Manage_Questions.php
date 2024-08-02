@@ -29,9 +29,11 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
             return;
         }
 
-        $questions = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}disc_questions WHERE test_id = %d", $test_id));
+        $questions_query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}disc_questions WHERE test_id = %d", $test_id);
+        $questions = $wpdb->get_results($questions_query);
 
-        // Log the retrieved questions for debugging
+        // Log the SQL query and retrieved questions for debugging
+        error_log('SQL Query: ' . $questions_query);
         error_log('Retrieved questions for test_id ' . $test_id . ': ' . print_r($questions, true));
 
         ?>
