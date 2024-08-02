@@ -50,22 +50,30 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
             <table class="wp-list-table widefat fixed striped">
                 <thead>
                     <tr>
+                        <th><input type="checkbox" /></th>
                         <th>ID</th>
                         <th>Test Name</th>
-                        <th>Description</th>
+                        <th>Shortcodes</th>
+                        <th>No of Questions</th>
                         <th>Created At</th>
                         <th>Updated At</th>
+                        <th>Manage Questions</th>
+                        <th>View Results</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($tests as $test): ?>
                         <tr>
+                            <td><input type="checkbox" /></td>
                             <td><?php echo esc_html($test->test_id); ?></td>
                             <td><?php echo esc_html($test->test_name); ?></td>
-                            <td><?php echo wp_kses_post($test->test_description); ?></td>
+                            <td><?php echo esc_html($test->shortcodes); ?></td>
+                            <td><?php echo esc_html($test->no_of_questions); ?></td>
                             <td><?php echo esc_html($test->created_at); ?></td>
                             <td><?php echo esc_html($test->updated_at); ?></td>
+                            <td><a href="<?php echo admin_url('admin.php?page=disc_manage_questions&test_id=' . $test->test_id); ?>" class="button">Manage Questions</a></td>
+                            <td><a href="<?php echo admin_url('admin.php?page=disc_view_results&test_id=' . $test->test_id); ?>" class="button">View Results</a></td>
                             <td>
                                 <a href="<?php echo admin_url('admin.php?page=disc_manage_tests&action=edit&test_id=' . $test->test_id); ?>" class="button">Edit</a>
                                 <a href="<?php echo admin_url('admin-post.php?action=delete_test&test_id=' . $test->test_id); ?>" class="button" onclick="return confirm('Are you sure you want to delete this test?');">Delete</a>
