@@ -125,6 +125,9 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
         $json_data = file_get_contents($_FILES['json_file']['tmp_name']);
         $data = json_decode($json_data, true);
 
+        // Log the received JSON data for debugging
+        error_log('Received JSON data: ' . print_r($data, true));
+
         if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
             wp_redirect(admin_url('admin.php?page=disc_manage_tests&import_status=error'));
             exit;
