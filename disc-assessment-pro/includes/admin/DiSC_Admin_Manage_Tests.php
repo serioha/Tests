@@ -142,7 +142,7 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
         if ($test_id) {
             foreach ($data['questions'] as $question) {
                 $question_id = $wpdb->insert("{$wpdb->prefix}disc_questions", array(
-                    'test_id' => $wpdb->insert_id,
+                    'test_id' => $wpdb->insert_id, // Set the test_id to the current test being imported
                     'question_text' => sanitize_text_field($question['question']),
                 ));
 
