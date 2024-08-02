@@ -126,7 +126,7 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
         $data = json_decode($json_data, true);
 
         // Log the received JSON data for debugging
-        error_log('Received JSON data: ' . print_r($data, true));
+        // error_log('Received JSON data: ' . print_r($data, true));
 
         if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
             wp_redirect(admin_url('admin.php?page=disc_manage_tests&import_status=error'));
@@ -134,12 +134,15 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
         }
 
         // Insert test data into the database
-        $test_id = $wpdb->insert("{$wpdb->prefix}disc_tests", array(
+        $wpdb->insert("{$wpdb->prefix}disc_tests", array(
             'test_name' => sanitize_text_field($data['test_name']),
             'test_description' => sanitize_textarea_field($data['test_description']),
             'created_at' => current_time('mysql'),
             'updated_at' => current_time('mysql'),
         ));
+
+        // Get the ID of the newly inserted test
+        $test_id = $wpdb->insert_id;
 
         // Insert questions associated with the test
         if ($test_id) {
