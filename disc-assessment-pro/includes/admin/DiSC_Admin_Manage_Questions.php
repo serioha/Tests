@@ -31,6 +31,9 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
 
         $questions = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}disc_questions WHERE test_id = %d", $test_id));
 
+        // Log the retrieved questions for debugging
+        error_log('Retrieved questions for test_id ' . $test_id . ': ' . print_r($questions, true));
+
         ?>
         <div class="wrap">
             <h1>Manage Questions for Test: <?php echo esc_html($test->test_name); ?></h1>
