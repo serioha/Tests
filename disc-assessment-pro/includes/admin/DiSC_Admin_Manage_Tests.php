@@ -21,53 +21,20 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
     }
 
     public function display_tests_page() {
-        ?>
-        <script>
-            document.getElementById('import-json').addEventListener('click', function() {
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.accept = '.json';
-                input.onchange = e => {
-                    const file = e.target.files[0];
-                    const reader = new FileReader();
-                    reader.onload = readerEvent => {
-                        const content = readerEvent.target.result;
-                        importJson(content);
-                    };
-                    reader.readAsText(file);
-                };
-                input.click();
-            });
-
-            function importJson(jsonData) {
-                // Send the JSON data to the server for processing
-                fetch('<?php echo admin_url('admin-post.php?action=import_json'); ?>', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: jsonData,
-                })
-                .then(response => response.json())
-                .then(data => {
-                    alert(data.message);
-                    location.reload(); // Reload the page to see the changes
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            }
-        </script>
         global $wpdb;
         $tests = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}disc_tests");
 
-        // Remove the custom action handling to prevent duplicate rendering
+        // Handle the custom action
+        if (isset($_GET['action']) && ($_GET['action'] === 'create_new_test' || $_GET['action'] === 'edit' && isset($_GET['test_id']))) {
+            $create_test = new Create_Test($wpdb);
+            $create_test->render();
+            return;
+        }
 
         ?>
         <div class="wrap">
             <h1>Manage Tests</h1>
             <a href="<?php echo admin_url('admin.php?page=disc_manage_tests&action=create_new_test'); ?>" class="page-title-action">Create New Test</a>
-            <button id="import-json" class="page-title-action">Import JSON</button>
             <table class="wp-list-table widefat fixed striped">
                 <thead>
                     <tr>
