@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/DiSC_Admin_Base.php';
-require_once __DIR__ . '/temp/JSON/validate_json_structure.php'; // Include the validation function
+//require_once __DIR__ . '/temp/JSON/validate_json_structure.php'; // Include the validation function
 
 class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
     public function __construct($wpdb) {
