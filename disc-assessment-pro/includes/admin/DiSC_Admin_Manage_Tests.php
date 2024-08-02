@@ -68,7 +68,7 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
                             <td><input type="checkbox" /></td>
                             <td><?php echo esc_html($test->test_id); ?></td>
                             <td><?php echo esc_html($test->test_name); ?></td>
-                            <td><?php echo esc_html($test->shortcodes); ?></td>
+                            <td>[display_tests id="<?php echo esc_html($test->test_id); ?>"]</td>
                             <td><?php echo esc_html($test->no_of_questions); ?></td>
                             <td><?php echo esc_html($test->created_at); ?></td>
                             <td><?php echo esc_html($test->updated_at); ?></td>
