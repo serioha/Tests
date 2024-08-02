@@ -7,13 +7,13 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
         add_action('admin_menu', array($this, 'add_menu_item'));
     }
 
-    public function add_menu_item() {
+    public function add_menu_item($menu_title = 'Manage Questions', $menu_slug = 'disc_manage_questions', $capability = 'manage_options', $callback = null) {
         add_submenu_page(
             'disc_manage_tests',
-            'Manage Questions',
-            'Manage Questions',
-            'manage_options',
-            'disc_manage_questions',
+            $menu_title,
+            $menu_title,
+            $capability,
+            $menu_slug,
             array($this, 'display_questions_page')
         );
     }
