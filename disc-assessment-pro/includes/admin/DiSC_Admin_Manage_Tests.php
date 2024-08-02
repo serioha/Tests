@@ -139,11 +139,28 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
         // Insert questions associated with the test
         if ($test_id) {
             foreach ($data['questions'] as $question) {
-                $wpdb->insert("{$wpdb->prefix}disc_questions", array(
+                $question_id = $wpdb->insert("{$wpdb->prefix}disc_questions", array(
                     'test_id' => $wpdb->insert_id,
-                    'question' => sanitize_text_field($question['question']),
-                    'answers' => json_encode($question['answers']), // Assuming answers are stored as JSON
+                    'question_text' => sanitize_text_field($question['question']),
                 ));
+
+                // Insert answers associated with the question
+                if ($question_id) {
+                    foreach ($question['answers'] as $answer) {
+                        $wpdb->insert("{$wpdb->prefix}disc_answers", array(
+                            'question_id' => $wpdb->insert_id,
+                            'answer_text' => sanitize_text_field($answer['text']),
+                            'score_d_adapted' => intval($answer['adapted_score']['D']),
+                            'score_i_adapted' => intval($answer['adapted_score']['I']),
+                            'score_s_adapted' => intval($answer['adapted_score']['S']),
+                            'score_c_adapted' => intval($answer['adapted_score']['C']),
+                            'score_d_natural' => intval($answer['natural_score']['D']),
+                            'score_i_natural' => intval($answer['natural_score']['I']),
+                            'score_s_natural' => intval($answer['natural_score']['S']),
+                            'score_c_natural' => intval($answer['natural_score']['C']),
+                        ));
+                    }
+                }
             }
         }
 
