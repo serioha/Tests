@@ -21,6 +21,14 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
     }
 
     public function display_tests_page() {
+        // Display any messages
+        if (isset($_GET['import_status'])) {
+            if ($_GET['import_status'] === 'success') {
+                echo '<div class="notice notice-success is-dismissible"><p>JSON imported successfully!</p></div>';
+            } elseif ($_GET['import_status'] === 'error') {
+                echo '<div class="notice notice-error is-dismissible"><p>Error importing JSON.</p></div>';
+            }
+        }
         global $wpdb;
         $tests = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}disc_tests");
 
@@ -35,6 +43,7 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
         <div class="wrap">
             <h1>Manage Tests</h1>
             <a href="<?php echo admin_url('admin.php?page=disc_manage_tests&action=create_new_test'); ?>" class="page-title-action">Create New Test</a>
+            <button id="import-json" class="page-title-action">Import JSON</button>
             <table class="wp-list-table widefat fixed striped">
                 <thead>
                     <tr>
@@ -66,7 +75,32 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
         <?php
     }
 
-    public function delete_test() {
+    public function import_json_file() {
+        if (!current_user_can('manage_options')) {
+            wp_die(__('You do not have sufficient permissions to access this page.'));
+        }
+
+        $json_data = file_get_contents($_FILES['json_file']['tmp_name']);
+        $data = json_decode($json_data, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            wp_redirect(admin_url('admin.php?page=disc_manage_tests&import_status=error'));
+            exit;
+        }
+
+        global $wpdb;
+        foreach ($data as $test) {
+            $wpdb->insert("{$wpdb->prefix}disc_tests", array(
+                'test_name' => sanitize_text_field($test['test_name']),
+                'test_description' => sanitize_textarea_field($test['test_description']),
+                'created_at' => current_time('mysql'),
+                'updated_at' => current_time('mysql'),
+            ));
+        }
+
+        wp_redirect(admin_url('admin.php?page=disc_manage_tests&import_status=success'));
+        exit;
+    }
         global $wpdb;
 
         if (!current_user_can('manage_options')) {
