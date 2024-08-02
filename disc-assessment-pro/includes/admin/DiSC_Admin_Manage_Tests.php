@@ -141,16 +141,19 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
         // Insert questions associated with the test
         if ($test_id) {
             foreach ($data['questions'] as $question) {
-                $question_id = $wpdb->insert("{$wpdb->prefix}disc_questions", array(
+                $wpdb->insert("{$wpdb->prefix}disc_questions", array(
                     'test_id' => $wpdb->insert_id, // Set the test_id to the current test being imported
                     'question_text' => sanitize_text_field($question['question']),
                 ));
 
+                // Get the last inserted question ID
+                $last_question_id = $wpdb->insert_id;
+
                 // Insert answers associated with the question
-                if ($question_id) {
+                if ($last_question_id) {
                     foreach ($question['answers'] as $answer) {
                         $wpdb->insert("{$wpdb->prefix}disc_answers", array(
-                            'question_id' => $wpdb->insert_id,
+                            'question_id' => $last_question_id,
                             'answer_text' => sanitize_text_field($answer['text']),
                             'score_d_adapted' => intval($answer['adapted_score']['D']),
                             'score_i_adapted' => intval($answer['adapted_score']['I']),
