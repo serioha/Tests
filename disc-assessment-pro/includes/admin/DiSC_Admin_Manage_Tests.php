@@ -10,14 +10,13 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
     }
 
     public function add_menu_item($menu_title = 'Manage Tests', $menu_slug = 'disc_manage_tests', $capability = 'manage_options', $callback = null) {
-        add_menu_page(
+        add_submenu_page(
+            'disc-assessment', // Change this to the parent slug
             $menu_title,
-            'Tests',
+            $menu_title,
             $capability,
             $menu_slug,
-            array($this, 'display_tests_page'),
-            'dashicons-welcome-learn-more',
-            6
+            array($this, 'display_tests_page')
         );
     }
 
@@ -126,7 +125,7 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
         $data = json_decode($json_data, true);
 
         // Log the received JSON data for debugging
-        // error_log('Received JSON data: ' . print_r($data, true));
+        error_log('Received JSON data: ' . print_r($data, true));
 
         if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
             wp_redirect(admin_url('admin.php?page=disc_manage_tests&import_status=error'));
@@ -134,15 +133,12 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
         }
 
         // Insert test data into the database
-        $wpdb->insert("{$wpdb->prefix}disc_tests", array(
+        $test_id = $wpdb->insert("{$wpdb->prefix}disc_tests", array(
             'test_name' => sanitize_text_field($data['test_name']),
             'test_description' => sanitize_textarea_field($data['test_description']),
             'created_at' => current_time('mysql'),
             'updated_at' => current_time('mysql'),
         ));
-
-        // Get the ID of the newly inserted test
-        $test_id = $wpdb->insert_id;
 
         // Insert questions associated with the test
         if ($test_id) {
