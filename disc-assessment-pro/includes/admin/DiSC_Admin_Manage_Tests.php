@@ -11,11 +11,11 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
 
     public function add_menu_item($menu_title = 'Manage Tests', $menu_slug = 'disc_manage_tests', $capability = 'manage_options', $callback = null) {
         add_submenu_page(
-			$menu_slug, // Parent slug
-			'Manage Tests',
-			'Manage Tests',
+            'disc_manage_tests', // Parent slug
+            $menu_title,
+            $menu_title,
             $capability,
-			'disc_manage_tests',
+            $menu_slug,
             array($this, 'display_tests_page')
         );
     }
