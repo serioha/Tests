@@ -33,8 +33,8 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
         $questions = $wpdb->get_results($questions_query);
 
         // Log the SQL query and retrieved questions for debugging
-        error_log('SQL Query: ' . $questions_query);
-        error_log('Retrieved questions for test_id ' . $test_id . ': ' . print_r($questions, true));
+        // error_log('SQL Query: ' . $questions_query);
+        // error_log('Retrieved questions for test_id ' . $test_id . ': ' . print_r($questions, true));
 
         ?>
         <div class="wrap">
