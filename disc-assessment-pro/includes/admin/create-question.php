@@ -9,7 +9,7 @@ class Create_Question extends DiSC_Admin_Base {
 
     public function check_user_capability() {
         if (!current_user_can('manage_options')) {
-            wp_die('Sorry, you are not allowed to view this page.');
+            wp_die(__('You do not have sufficient permissions to access this page.'));
         }
     }
 
@@ -40,7 +40,7 @@ class Create_Question extends DiSC_Admin_Base {
             <a href="<?php echo admin_url('admin.php?page=disc_manage_questions&test_id=' . $test_id); ?>" class="button">Back to Questions</a>
             <a href="<?php echo admin_url('admin.php?page=disc_manage_tests'); ?>" class="button">Back to Tests</a>
 
-            <form id="question-form">
+            <form method="post" id="question-form">
                 <input type="hidden" name="question_id" value="<?php echo esc_attr($question_id); ?>">
                 <input type="hidden" name="test_id" value="<?php echo esc_attr($test_id); ?>">
 
@@ -150,7 +150,7 @@ class Create_Question extends DiSC_Admin_Base {
                     document.getElementById('save-message').style.display = 'block';
                     setTimeout(() => {
                         document.getElementById('save-message').style.display = 'none';
-                        window.location.href = '<?php echo admin_url('admin.php?page=disc_manage_tests&action=manage_questions&test_id=' . $test_id); ?>';
+                        window.location.href = '<?php echo admin_url('admin.php?page=disc_manage_questions&test_id=' . $test_id); ?>';
                     }, 3000);
                 } else {
                     alert('Failed to save question.');
