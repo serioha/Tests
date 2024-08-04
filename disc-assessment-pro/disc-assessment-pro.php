@@ -23,6 +23,7 @@ require_once __DIR__ . '/includes/models/DiSC_Tests.php';
 require_once __DIR__ . '/includes/models/DiSC_User.php';
 require_once __DIR__ . '/includes/admin/create-personality-type.php';
 require_once __DIR__ . '/includes/admin/create-test.php';
+require_once __DIR__ . '/includes/hello.php';
 //require_once __DIR__ . '/includes/admin/create-question.php';
 
 class DiSC_Plugin {
