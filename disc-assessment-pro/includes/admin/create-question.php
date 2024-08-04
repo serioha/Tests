@@ -46,7 +46,7 @@ class Create_Question extends DiSC_Admin_Base {
                 <textarea name="question_text" style="width: 100%;" required><?php echo esc_textarea($question_text); ?></textarea>
 
                 <h3>Possible Answers</h3>
-                <div id="answers-container" style="margin-bottom: 20px;">
+                <div id="answers-container" style="margin-bottom: 20px;"> <!-- Remove this duplicate -->
                     <?php
                     // If editing, display existing answers
                     if ($question_id > 0) {
@@ -119,7 +119,7 @@ class Create_Question extends DiSC_Admin_Base {
                         <button type="button" class="remove-answer">Remove</button>
                     </div>
                 </div>
-                <button type="button" id="add-answer" class="button button-secondary">Add Answer</button>
+                <button type="button" id="add-answer" class="button button-secondary">Add Answer</button> <!-- Ensure this button is present -->
                 <button type="submit" class="button button-primary"><?php echo $question_id > 0 ? 'Save Changes' : 'Add Question'; ?></button>
             </form>
         </div>
