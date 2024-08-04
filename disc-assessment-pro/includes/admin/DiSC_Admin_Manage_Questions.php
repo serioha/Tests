@@ -25,9 +25,13 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
             error_log('Test ID is zero in delete_question method.');
             wp_die(__('Test ID is invalid.'));
         }
+
         if (isset($_GET['question_id'])) {
             $question_id = intval($_GET['question_id']);
             $wpdb->delete("{$wpdb->prefix}disc_questions", array('question_id' => $question_id));
+        } else {
+            error_log('Question ID is missing in delete_question method.');
+            wp_die(__('Question ID is missing.'));
         }
 
         wp_redirect(admin_url('admin.php?page=disc_manage_questions&test_id=' . $test_id));
