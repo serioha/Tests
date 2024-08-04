@@ -46,7 +46,7 @@ class Create_Question extends DiSC_Admin_Base {
                 <textarea name="question_text" style="width: 100%;" required><?php echo esc_textarea($question_text); ?></textarea>
 
                 <h3>Possible Answers</h3>
-                <div id="answers-container">
+                <div id="answers-container" style="margin-bottom: 20px;">
                     <?php
                     // If editing, display existing answers
                     if ($question_id > 0) {
@@ -98,7 +98,7 @@ class Create_Question extends DiSC_Admin_Base {
                     }
                     ?>
                 </div>
-                <button type="button" id="add-answer" class="button button-secondary">Add Answer</button>
+                <button type="button" id="add-answer" class="button button-secondary" style="margin-top: 10px;">Add Answer</button>
 
                 <button type="submit" class="button button-primary"><?php echo $question_id > 0 ? 'Save Changes' : 'Add Question'; ?></button>
             </form>
@@ -146,6 +146,7 @@ class Create_Question extends DiSC_Admin_Base {
     padding: 10px;
     margin-bottom: 10px;
     background-color: #f9f9f9;
+    border-radius: 5px;
 }
 
 .answer .answer-text {
