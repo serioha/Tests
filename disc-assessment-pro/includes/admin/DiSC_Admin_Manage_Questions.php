@@ -50,7 +50,10 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
             }
         }
 
-        $test_id = isset($_GET['test_id']) ? intval($_GET['test_id']) : 0;
+        if (!isset($_GET['test_id'])) {
+            wp_die(__('Test ID is missing.'));
+        }
+        $test_id = intval($_GET['test_id']);
         if ($test_id === 0) {
             wp_die(__('Test ID is missing.'));
         }
