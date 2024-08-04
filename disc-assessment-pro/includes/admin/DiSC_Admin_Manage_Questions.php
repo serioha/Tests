@@ -21,6 +21,13 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
     public function display_questions_page() {
         global $wpdb;
 
+        // Handle the custom action for creating or editing questions
+        if (isset($_GET['action']) && ($_GET['action'] === 'create_new_question' || ($_GET['action'] === 'edit' && isset($_GET['question_id'])))) {
+            $create_question = new Create_Question($wpdb);
+            $create_question->render(); // Call the render method to display the form
+            return;
+        }
+
         $test_id = isset($_GET['test_id']) ? intval($_GET['test_id']) : 0;
         $test = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}disc_tests WHERE test_id = %d", $test_id));
 
@@ -31,10 +38,6 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
 
         $questions_query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}disc_questions WHERE test_id = %d", $test_id);
         $questions = $wpdb->get_results($questions_query);
-
-        // Log the SQL query and retrieved questions for debugging
-        // error_log('SQL Query: ' . $questions_query);
-        // error_log('Retrieved questions for test_id ' . $test_id . ': ' . print_r($questions, true));
 
         ?>
         <div class="wrap">
