@@ -29,6 +29,11 @@ add_action('wp_enqueue_scripts', function() {
     wp_enqueue_script('disc-assessment-script', plugins_url('assets/js/script.js', __FILE__), array('jquery'), null, true);
 });
 
+add_action('wp_enqueue_scripts', function() {
+    wp_enqueue_style('disc-assessment-style', plugins_url('assets/css/style.css', __FILE__));
+    wp_enqueue_script('disc-assessment-script', plugins_url('assets/js/script.js', __FILE__), array('jquery'), null, true);
+});
+
 class DiSC_Plugin {
     private $db_manager;
     private $admin_base;
@@ -40,7 +45,8 @@ class DiSC_Plugin {
     private $assessment_form;
     private $result_display;
 
-    public function __construct() {
+    public function __construct() {        
+        // Initialize the plugin
         // Initialize the plugin
         global $wpdb;
         $this->db_manager = new DB_Manager($wpdb);
