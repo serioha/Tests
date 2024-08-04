@@ -98,7 +98,7 @@ class Create_Question extends DiSC_Admin_Base {
                     }
                     ?>
                 </div>
-                <button type="button" id="add-answer" class="button button-secondary" style="margin-top: 10px;">Add Answer</button>
+                
                 <div id="answers-container" style="margin-bottom: 20px;">
                     <div class="answer">
                         <input class="answer-text" type="text" name="answer_text[]" placeholder="Answer Text" required>
@@ -119,7 +119,7 @@ class Create_Question extends DiSC_Admin_Base {
                         <button type="button" class="remove-answer">Remove</button>
                     </div>
                 </div>
-
+                <button type="button" id="add-answer" class="button button-secondary" >Add Answer</button>
                 <button type="submit" class="button button-primary"><?php echo $question_id > 0 ? 'Save Changes' : 'Add Question'; ?></button>
             </form>
         </div>
