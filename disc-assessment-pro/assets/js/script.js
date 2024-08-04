@@ -25,3 +25,29 @@ document.addEventListener('DOMContentLoaded', function() {
         input.click();
     });
 });
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('add-answer').addEventListener('click', function() {
+        const answersContainer = document.getElementById('answers-container');
+        const newAnswer = document.createElement('div');
+        newAnswer.classList.add('answer');
+        newAnswer.innerHTML = `
+            <input type="text" name="answer_text[]" placeholder="Answer Text" required>
+            <input type="number" name="score_d_adapted[]" placeholder="D Adapted Score" required>
+            <input type="number" name="score_i_adapted[]" placeholder="I Adapted Score" required>
+            <input type="number" name="score_s_adapted[]" placeholder="S Adapted Score" required>
+            <input type="number" name="score_c_adapted[]" placeholder="C Adapted Score" required>
+            <input type="number" name="score_d_natural[]" placeholder="D Natural Score" required>
+            <input type="number" name="score_i_natural[]" placeholder="I Natural Score" required>
+            <input type="number" name="score_s_natural[]" placeholder="S Natural Score" required>
+            <input type="number" name="score_c_natural[]" placeholder="C Natural Score" required>
+            <button type="button" class="remove-answer">Remove</button>
+        `;
+        answersContainer.appendChild(newAnswer);
+    });
+
+    document.getElementById('answers-container').addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-answer')) {
+            e.target.parentElement.remove();
+        }
+    });
+});

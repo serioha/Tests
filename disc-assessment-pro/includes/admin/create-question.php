@@ -45,6 +45,49 @@ class Create_Question extends DiSC_Admin_Base {
                 <h3>Question Text</h3>
                 <textarea name="question_text" style="width: 100%;" required><?php echo esc_textarea($question_text); ?></textarea>
 
+                <h3>Possible Answers</h3>
+                <div id="answers-container">
+                    <?php
+                    // If editing, display existing answers
+                    if ($question_id > 0) {
+                        $answers = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}disc_answers WHERE question_id = %d", $question_id));
+                        foreach ($answers as $answer) {
+                            ?>
+                            <div class="answer">
+                                <input type="text" name="answer_text[]" value="<?php echo esc_attr($answer->answer_text); ?>" placeholder="Answer Text" required>
+                                <input type="number" name="score_d_adapted[]" value="<?php echo esc_attr($answer->score_d_adapted); ?>" placeholder="D Adapted Score" required>
+                                <input type="number" name="score_i_adapted[]" value="<?php echo esc_attr($answer->score_i_adapted); ?>" placeholder="I Adapted Score" required>
+                                <input type="number" name="score_s_adapted[]" value="<?php echo esc_attr($answer->score_s_adapted); ?>" placeholder="S Adapted Score" required>
+                                <input type="number" name="score_c_adapted[]" value="<?php echo esc_attr($answer->score_c_adapted); ?>" placeholder="C Adapted Score" required>
+                                <input type="number" name="score_d_natural[]" value="<?php echo esc_attr($answer->score_d_natural); ?>" placeholder="D Natural Score" required>
+                                <input type="number" name="score_i_natural[]" value="<?php echo esc_attr($answer->score_i_natural); ?>" placeholder="I Natural Score" required>
+                                <input type="number" name="score_s_natural[]" value="<?php echo esc_attr($answer->score_s_natural); ?>" placeholder="S Natural Score" required>
+                                <input type="number" name="score_c_natural[]" value="<?php echo esc_attr($answer->score_c_natural); ?>" placeholder="C Natural Score" required>
+                                <button type="button" class="remove-answer">Remove</button>
+                            </div>
+                            <?php
+                        }
+                    } else {
+                        // If creating a new question, show an empty answer field
+                        ?>
+                        <div class="answer">
+                            <input type="text" name="answer_text[]" placeholder="Answer Text" required>
+                            <input type="number" name="score_d_adapted[]" placeholder="D Adapted Score" required>
+                            <input type="number" name="score_i_adapted[]" placeholder="I Adapted Score" required>
+                            <input type="number" name="score_s_adapted[]" placeholder="S Adapted Score" required>
+                            <input type="number" name="score_c_adapted[]" placeholder="C Adapted Score" required>
+                            <input type="number" name="score_d_natural[]" placeholder="D Natural Score" required>
+                            <input type="number" name="score_i_natural[]" placeholder="I Natural Score" required>
+                            <input type="number" name="score_s_natural[]" placeholder="S Natural Score" required>
+                            <input type="number" name="score_c_natural[]" placeholder="C Natural Score" required>
+                            <button type="button" class="remove-answer">Remove</button>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+                <button type="button" id="add-answer">Add Answer</button>
+
                 <button type="submit" class="button button-primary"><?php echo $question_id > 0 ? 'Save Changes' : 'Add Question'; ?></button>
             </form>
         </div>
