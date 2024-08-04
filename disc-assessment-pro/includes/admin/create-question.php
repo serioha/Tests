@@ -82,30 +82,6 @@ class Create_Question extends DiSC_Admin_Base {
         }
     }
 
-    public function view_question() {
-        global $wpdb;
-
-        $question_id = isset($_GET['question_id']) ? intval($_GET['question_id']) : 0;
-        $table_name = $wpdb->prefix . 'disc_questions';
-
-        if ($question_id > 0) {
-            $question = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE question_id = %d", $question_id));
-            if ($question) {
-                ?>
-                <div class="wrap">
-                    <h1>View Question</h1>
-                    <p><strong>Question ID:</strong> <?php echo esc_html($question->question_id); ?></p>
-                    <p><strong>Question Text:</strong> <?php echo esc_html($question->question_text); ?></p>
-                    <a href="<?php echo admin_url('admin.php?page=disc_manage_questions&test_id=' . $question->test_id); ?>" class="button">Back to Questions</a>
-                </div>
-                <?php
-            } else {
-                echo '<h1>Question not found.</h1>';
-            }
-        } else {
-            echo '<h1>Invalid Question ID.</h1>';
-        }
-    }
 }
 
 ?>
