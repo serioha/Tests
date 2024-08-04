@@ -16,7 +16,7 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
         }
 
         if (!isset($_GET['test_id'])) {
-            wp_die(__('Test ID is missing.'));
+            wp_die(__('Test ID is missing #3.'));
         }
 
         $test_id = intval($_GET['test_id']);
@@ -56,11 +56,11 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
         }
 
         if (!isset($_GET['test_id'])) {
-            wp_die(__('Test ID is missing.'));
+            wp_die(__('Test ID is missing #1.'));
         }
         $test_id = intval($_GET['test_id']);
         if ($test_id === 0) {
-            wp_die(__('Test ID is missing.'));
+            wp_die(__('Test ID is missing #2.'));
         }
         $test = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}disc_tests WHERE test_id = %d", $test_id));
 
