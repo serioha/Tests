@@ -53,18 +53,15 @@ class Create_Question extends DiSC_Admin_Base {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $action = sanitize_text_field($_POST['action']);
             $question_text = sanitize_textarea_field($_POST['question_text']);
-            $current_time = current_time('mysql');
 
             if ($action === 'add') {
                 $wpdb->insert(
                     $table_name,
                     [
                         'test_id' => $test_id, // Use the test_id from the URL
-                        'question_text' => $question_text,
-                        'created_at' => $current_time,
-                        'updated_at' => $current_time,
+                        'question_text' => $question_text
                     ],
-                    ['%d', '%s', '%s', '%s']
+                    ['%d', '%s']
                 );
             } elseif ($action === 'edit') {
                 $question_id = intval($_POST['question_id']);
@@ -72,11 +69,10 @@ class Create_Question extends DiSC_Admin_Base {
                 $wpdb->update(
                     $table_name,
                     [
-                        'question_text' => $question_text,
-                        'updated_at' => $current_time,
+                        'question_text' => $question_text
                     ],
                     ['question_id' => $question_id],
-                    ['%s', '%s'],
+                    ['%s'],
                     ['%d']
                 );
             }
@@ -111,4 +107,5 @@ class Create_Question extends DiSC_Admin_Base {
         }
     }
 }
+
 ?>
