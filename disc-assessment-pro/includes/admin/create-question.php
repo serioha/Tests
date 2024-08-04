@@ -17,6 +17,7 @@ class Create_Question extends DiSC_Admin_Base {
         global $wpdb;
 
         $question_id = isset($_GET['question_id']) ? intval($_GET['question_id']) : 0;
+        $test_id = isset($_GET['test_id']) ? intval($_GET['test_id']) : 0; // Get test_id from the URL
         $table_name = $wpdb->prefix . 'disc_questions';
 
         $question_text = '';
@@ -32,7 +33,7 @@ class Create_Question extends DiSC_Admin_Base {
         <div class="wrap">
             <h1><?php echo $question_id > 0 ? 'Edit Question' : 'Create New Question'; ?></h1>
 
-            <a href="<?php echo admin_url('admin.php?page=disc_manage_questions'); ?>" class="button">Back to Questions</a>
+            <a href="<?php echo admin_url('admin.php?page=disc_manage_questions&test_id=' . $test_id); ?>" class="button">Back to Questions</a>
 
             <form method="post">
                 <input type="hidden" name="action" value="<?php echo $question_id > 0 ? 'edit' : 'add'; ?>">
@@ -57,7 +58,7 @@ class Create_Question extends DiSC_Admin_Base {
                 $wpdb->insert(
                     $table_name,
                     [
-                        'test_id' => intval($_GET['test_id']), // Assuming test_id is passed in the URL
+                        'test_id' => $test_id, // Use the test_id from the URL
                         'question_text' => $question_text,
                         'created_at' => $current_time,
                         'updated_at' => $current_time,
@@ -79,7 +80,7 @@ class Create_Question extends DiSC_Admin_Base {
                 );
             }
 
-            echo '<script type="text/javascript">window.location.href="' . admin_url('admin.php?page=disc_manage_questions&test_id=' . intval($_GET['test_id'])) . '";</script>';
+            echo '<script type="text/javascript">window.location.href="' . admin_url('admin.php?page=disc_manage_questions&test_id=' . $test_id) . '";</script>';
             exit;
         }
     }
