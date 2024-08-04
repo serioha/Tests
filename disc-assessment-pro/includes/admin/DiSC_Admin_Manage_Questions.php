@@ -15,12 +15,17 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
             wp_die(__('You do not have sufficient permissions to access this page.'));
         }
 
+        if (!isset($_GET['test_id'])) {
+            wp_die(__('Test ID is missing.'));
+        }
+
+        $test_id = intval($_GET['test_id']);
         if (isset($_GET['question_id'])) {
             $question_id = intval($_GET['question_id']);
             $wpdb->delete("{$wpdb->prefix}disc_questions", array('question_id' => $question_id));
         }
 
-        wp_redirect(admin_url('admin.php?page=disc_manage_questions&test_id=' . intval($_GET['test_id'])));
+        wp_redirect(admin_url('admin.php?page=disc_manage_questions&test_id=' . $test_id));
         exit;
     }
 
