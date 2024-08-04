@@ -27,11 +27,8 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
             if ($_GET['action'] === 'create_new_question') {
                 $create_question->render(); // Call the render method to display the form
                 return;
-            } elseif ($_GET['action'] === 'view_question' && isset($_GET['question_id'])) {
-                $create_question->display_result(); // Call the display_result method to show the question
-                return;
             } elseif ($_GET['action'] === 'edit' && isset($_GET['question_id'])) {
-                $create_question->create_question(); // Call the create_question method for editing
+                $create_question->render(); // Call the render method for editing
                 return;
             }
         }
@@ -71,7 +68,6 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
                                 <td><?php echo esc_html($question->question_id); ?></td>
                                 <td><?php echo esc_html($question->question_text); ?></td>
                                 <td>
-                                    <a href="<?php echo admin_url('admin.php?page=disc_manage_questions&test_id=' . $test_id . '&action=view_question&question_id=' . $question->question_id); ?>" class="button">View</a>
                                     <a href="<?php echo admin_url('admin.php?page=disc_manage_questions&test_id=' . $test_id . '&action=edit&question_id=' . $question->question_id); ?>" class="button">Edit</a>
                                     <a href="<?php echo admin_url('admin-post.php?action=delete_question&question_id=' . $question->question_id); ?>" class="button" onclick="return confirm('Are you sure you want to delete this question?');">Delete</a>
                                 </td>
