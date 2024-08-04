@@ -114,6 +114,7 @@ add_action('wp_enqueue_scripts', function() {
     wp_enqueue_style('disc-assessment-style', plugins_url('assets/css/style.css', __FILE__));
     wp_enqueue_script('disc-assessment-script', plugins_url('assets/js/script.js', __FILE__), array('jquery'), null, true);
 });
+
 add_action('plugins_loaded', function() {
     new DiSC_Plugin();
 });
