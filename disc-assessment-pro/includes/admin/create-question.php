@@ -130,7 +130,7 @@ class Create_Question extends DiSC_Admin_Base {
             $question_text = sanitize_textarea_field($_POST['question_text']);
 
             if ($action === 'add') {
-                $wpdb->insert(
+                $result = $wpdb->insert(
                     $table_name,
                     [
                         'test_id' => $test_id, // Use the test_id from the URL
@@ -141,7 +141,7 @@ class Create_Question extends DiSC_Admin_Base {
             } elseif ($action === 'edit') {
                 $question_id = intval($_POST['question_id']);
 
-                $wpdb->update(
+                $result = $wpdb->update(
                     $table_name,
                     [
                         'question_text' => $question_text
@@ -152,7 +152,15 @@ class Create_Question extends DiSC_Admin_Base {
                 );
             }
 
-            echo '<script type="text/javascript">window.location.href="' . admin_url('admin.php?page=disc_manage_questions&test_id=' . $test_id) . '";</script>';
+            if ($result) {
+                if ($result) {
+                    echo '<script type="text/javascript">window.location.href="' . admin_url('admin.php?page=disc_manage_questions&test_id=' . $test_id) . '";</script>';
+                } else {
+                    echo '<div class="error"><p>Failed to update the question. Please try again.</p></div>';
+                }
+            } else {
+                echo '<div class="error"><p>Failed to save the question. Please try again.</p></div>';
+            }
             exit;
         }
     }
