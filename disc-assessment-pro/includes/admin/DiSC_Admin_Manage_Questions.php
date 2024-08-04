@@ -106,7 +106,7 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
                                 <td><?php echo esc_html($question->question_text); ?></td>
                                 <td>
                                     <a href="<?php echo admin_url('admin.php?page=disc_manage_questions&test_id=' . $test_id . '&action=edit&question_id=' . $question->question_id); ?>" class="button">Edit</a>
-                                    <a href="<?php echo admin_url('admin-post.php?action=delete_question&question_id=' . $question->question_id); ?>" class="button" onclick="return confirm('Are you sure you want to delete this question?');">Delete</a>
+                                    <a href="<?php echo admin_url('admin-post.php?action=delete_question&question_id=' . $question->question_id . '&test_id=' . $test_id); ?>" class="button" onclick="return confirm('Are you sure you want to delete this question?');">Delete</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
