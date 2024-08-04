@@ -132,7 +132,8 @@ class DiSC_Admin_Manage_Tests extends DiSC_Admin_Base {
             exit;
         }
 
-        // Insert test data into the database
+        // Log the received JSON data for debugging
+        error_log('Received JSON data: ' . print_r($data, true)); // Log received JSON data
         $test_id = $wpdb->insert("{$wpdb->prefix}disc_tests", array(
             'test_name' => sanitize_text_field($data['test_name']),
             'test_description' => sanitize_textarea_field($data['test_description']),

@@ -15,6 +15,7 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
             wp_die(__('You do not have sufficient permissions to access this page.'));
         }
 
+        error_log('Attempting to delete question ID: ' . intval($_GET['question_id'])); // Log delete action
         if (!isset($_GET['test_id'])) {
             error_log('Test ID is missing in delete_question method.');
             wp_die(__('Test ID is missing.'));

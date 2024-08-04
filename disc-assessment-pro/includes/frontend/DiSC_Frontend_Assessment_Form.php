@@ -10,6 +10,7 @@ class DiSC_Frontend_Assessment_Form extends DiSC_Frontend_Base {
     public function handle_submission() {
         global $wpdb;
 
+        error_log('Received submission: ' . print_r($_POST, true)); // Log received data
         if (!isset($_POST['test_id']) || !isset($_POST['action']) || $_POST['action'] !== 'submit_test') {
             error_log('Invalid submission: test_id or action is missing in handle_submission method.');
             wp_die(__('Invalid submission.'));
