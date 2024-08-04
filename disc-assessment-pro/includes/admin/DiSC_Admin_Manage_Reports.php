@@ -10,6 +10,7 @@ class DiSC_Admin_Manage_Reports extends DiSC_Admin_Base {
 
     public function render_report_manager() {
         // Render the report manager interface
+		error_log('Rendering report manager interface.');
 		echo '<h1>Manage Reports</h1>';
         echo '<p>This is a test.</p>';
     }

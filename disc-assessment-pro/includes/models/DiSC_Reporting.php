@@ -8,6 +8,7 @@ class DiSC_Reporting {
 
     public function generate_report() {
         // Generate a report based on the user's results
+        error_log('Generating report.');
         echo '<h1>Report</h1>';
         echo '<p>This is a test.</p>';
     }

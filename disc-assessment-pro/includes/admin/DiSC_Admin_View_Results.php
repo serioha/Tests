@@ -10,6 +10,7 @@ class DiSC_Admin_View_Results extends DiSC_Admin_Base {
 
     public function render_results_view() {
         // Render the results interface
+		error_log('Rendering results view interface.');
 		echo '<h1>View Results</h1>';
         echo '<p>This is a test.</p>';
     }

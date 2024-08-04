@@ -16,11 +16,13 @@ class DiSC_Frontend_Display_Tests extends DiSC_Frontend_Base {
         if (!empty($atts['id'])) {
             $test = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}disc_tests WHERE test_id = %d", intval($atts['id'])));
             if (!$test) {
+                error_log('Test not found for ID: ' . intval($atts['id']));
                 return '<p>Test not found.</p>';
             }
 
             $questions = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}disc_questions WHERE test_id = %d", intval($test->test_id)));
             if (empty($questions)) {
+                error_log('No questions available for test ID: ' . intval($test->test_id));
                 return '<p>No questions available for this test.</p>';
             }
 
