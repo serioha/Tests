@@ -119,7 +119,7 @@ class Create_Question extends DiSC_Admin_Base {
                         <button type="button" class="remove-answer">Remove</button>
                     </div>
                 </div>
-                <button type="button" id="add-answer" class="button button-secondary" >Add Answer</button>
+                <button type="button" id="add-answer" class="button button-secondary">Add Answer</button>
                 <button type="submit" class="button button-primary"><?php echo $question_id > 0 ? 'Save Changes' : 'Add Question'; ?></button>
             </form>
         </div>
