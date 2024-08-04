@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         input.click();
     });
+    });
 });
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('add-answer').addEventListener('click', function() {
