@@ -54,15 +54,21 @@ class Create_Question extends DiSC_Admin_Base {
                         foreach ($answers as $answer) {
                             ?>
                             <div class="answer">
-                                <input type="text" name="answer_text[]" value="<?php echo esc_attr($answer->answer_text); ?>" placeholder="Answer Text" required>
-                                <input type="number" name="score_d_adapted[]" value="<?php echo esc_attr($answer->score_d_adapted); ?>" placeholder="D Adapted Score" required>
-                                <input type="number" name="score_i_adapted[]" value="<?php echo esc_attr($answer->score_i_adapted); ?>" placeholder="I Adapted Score" required>
-                                <input type="number" name="score_s_adapted[]" value="<?php echo esc_attr($answer->score_s_adapted); ?>" placeholder="S Adapted Score" required>
-                                <input type="number" name="score_c_adapted[]" value="<?php echo esc_attr($answer->score_c_adapted); ?>" placeholder="C Adapted Score" required>
-                                <input type="number" name="score_d_natural[]" value="<?php echo esc_attr($answer->score_d_natural); ?>" placeholder="D Natural Score" required>
-                                <input type="number" name="score_i_natural[]" value="<?php echo esc_attr($answer->score_i_natural); ?>" placeholder="I Natural Score" required>
-                                <input type="number" name="score_s_natural[]" value="<?php echo esc_attr($answer->score_s_natural); ?>" placeholder="S Natural Score" required>
-                                <input type="number" name="score_c_natural[]" value="<?php echo esc_attr($answer->score_c_natural); ?>" placeholder="C Natural Score" required>
+                                <input class="answer-text" type="text" name="answer_text[]" value="<?php echo esc_attr($answer->answer_text); ?>" placeholder="Answer Text" required>
+                                <div class="answer-group">
+                                    <label>Adapted Style</label>
+                                    <input type="number" name="score_d_adapted[]" value="<?php echo esc_attr($answer->score_d_adapted); ?>" placeholder="D Adapted Score" required>
+                                    <input type="number" name="score_i_adapted[]" value="<?php echo esc_attr($answer->score_i_adapted); ?>" placeholder="I Adapted Score" required>
+                                    <input type="number" name="score_s_adapted[]" value="<?php echo esc_attr($answer->score_s_adapted); ?>" placeholder="S Adapted Score" required>
+                                    <input type="number" name="score_c_adapted[]" value="<?php echo esc_attr($answer->score_c_adapted); ?>" placeholder="C Adapted Score" required>
+                                </div>
+                                <div class="answer-group">
+                                    <label>Natural Style</label>
+                                    <input type="number" name="score_d_natural[]" value="<?php echo esc_attr($answer->score_d_natural); ?>" placeholder="D Natural Score" required>
+                                    <input type="number" name="score_i_natural[]" value="<?php echo esc_attr($answer->score_i_natural); ?>" placeholder="I Natural Score" required>
+                                    <input type="number" name="score_s_natural[]" value="<?php echo esc_attr($answer->score_s_natural); ?>" placeholder="S Natural Score" required>
+                                    <input type="number" name="score_c_natural[]" value="<?php echo esc_attr($answer->score_c_natural); ?>" placeholder="C Natural Score" required>
+                                </div>
                                 <button type="button" class="remove-answer">Remove</button>
                             </div>
                             <?php
@@ -71,22 +77,28 @@ class Create_Question extends DiSC_Admin_Base {
                         // If creating a new question, show an empty answer field
                         ?>
                         <div class="answer">
-                            <input type="text" name="answer_text[]" placeholder="Answer Text" required>
-                            <input type="number" name="score_d_adapted[]" placeholder="D Adapted Score" required>
-                            <input type="number" name="score_i_adapted[]" placeholder="I Adapted Score" required>
-                            <input type="number" name="score_s_adapted[]" placeholder="S Adapted Score" required>
-                            <input type="number" name="score_c_adapted[]" placeholder="C Adapted Score" required>
-                            <input type="number" name="score_d_natural[]" placeholder="D Natural Score" required>
-                            <input type="number" name="score_i_natural[]" placeholder="I Natural Score" required>
-                            <input type="number" name="score_s_natural[]" placeholder="S Natural Score" required>
-                            <input type="number" name="score_c_natural[]" placeholder="C Natural Score" required>
+                            <input class="answer-text" type="text" name="answer_text[]" placeholder="Answer Text" required>
+                            <div class="answer-group">
+                                <label>Adapted Style</label>
+                                <input type="number" name="score_d_adapted[]" placeholder="D" required>
+                                <input type="number" name="score_i_adapted[]" placeholder="I" required>
+                                <input type="number" name="score_s_adapted[]" placeholder="S" required>
+                                <input type="number" name="score_c_adapted[]" placeholder="C" required>
+                            </div>
+                            <div class="answer-group">
+                                <label>Natural Style</label>
+                                <input type="number" name="score_d_natural[]" placeholder="D" required>
+                                <input type="number" name="score_i_natural[]" placeholder="I" required>
+                                <input type="number" name="score_s_natural[]" placeholder="S" required>
+                                <input type="number" name="score_c_natural[]" placeholder="C" required>
+                            </div>
                             <button type="button" class="remove-answer">Remove</button>
                         </div>
                         <?php
                     }
                     ?>
                 </div>
-                <button type="button" id="add-answer">Add Answer</button>
+                <button type="button" id="add-answer" class="button button-secondary">Add Answer</button>
 
                 <button type="submit" class="button button-primary"><?php echo $question_id > 0 ? 'Save Changes' : 'Add Question'; ?></button>
             </form>
@@ -128,3 +140,45 @@ class Create_Question extends DiSC_Admin_Base {
 }
 
 ?>
+<style>
+.answer {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+
+.answer .answer-text {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.answer-group {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.answer-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.answer input {
+    width: 60px;
+    margin-right: 5px;
+}
+
+.remove-answer {
+    background: #ff0000;
+    color: #ffffff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.remove-answer:hover {
+    background: #cc0000;
+}
+</style>
