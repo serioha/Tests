@@ -110,7 +110,10 @@ register_deactivation_hook(__FILE__, array('DiSC_Deactivator', 'deactivate'));
 
 define('DISC_ASSESSMENT_PRO_VERSION', '1.0.0');
 
-// Initialize the plugin
+add_action('wp_enqueue_scripts', function() {
+    wp_enqueue_style('disc-assessment-style', plugins_url('assets/css/style.css', __FILE__));
+    wp_enqueue_script('disc-assessment-script', plugins_url('assets/js/script.js', __FILE__), array('jquery'), null, true);
+});
 add_action('plugins_loaded', function() {
     new DiSC_Plugin();
 });
