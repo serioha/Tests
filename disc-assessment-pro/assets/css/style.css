@@ -1,0 +1,22 @@
+/* Custom styles for DiSC Assessment Pro */
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+h1, h2, h3 {
+    color: #333;
+}
+
+.button {
+    background-color: #0073aa;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #005177;
+}
