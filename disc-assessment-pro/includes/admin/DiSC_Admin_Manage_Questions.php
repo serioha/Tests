@@ -54,9 +54,6 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
         if ($test_id === 0) {
             wp_die(__('Test ID is missing.'));
         }
-        if ($test_id === 0) {
-            wp_die(__('Test ID is missing.'));
-        }
         $test = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}disc_tests WHERE test_id = %d", $test_id));
 
         if (!$test) {
