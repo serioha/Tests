@@ -17,7 +17,9 @@ require_once __DIR__ . '/includes/core/DiSC_Settings.php';
 require_once __DIR__ . '/includes/frontend/DiSC_Frontend_Assessment_Form.php';
 require_once __DIR__ . '/includes/frontend/DiSC_Frontend_Base.php';
 require_once __DIR__ . '/includes/frontend/DiSC_Frontend_Result_Display.php';
-require_once __DIR__ . '/includes/frontend/DiSC_Frontend_Display_Tests.php';
+add_action('admin_enqueue_scripts', function() {
+    wp_enqueue_script('disc-assessment-script', plugins_url('assets/js/script.js', __FILE__), array('jquery'), null, true);
+});
 require_once __DIR__ . '/includes/models/DiSC_Reporting.php';
 require_once __DIR__ . '/includes/models/DiSC_Tests.php';
 require_once __DIR__ . '/includes/models/DiSC_User.php';
