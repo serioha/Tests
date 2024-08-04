@@ -5,6 +5,23 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
     public function __construct($wpdb) {
         parent::__construct($wpdb);
         add_action('admin_menu', array($this, 'add_menu_item'));
+        add_action('admin_post_delete_question', array($this, 'delete_question'));
+    }
+
+    public function delete_question() {
+        global $wpdb;
+
+        if (!current_user_can('manage_options')) {
+            wp_die(__('You do not have sufficient permissions to access this page.'));
+        }
+
+        if (isset($_GET['question_id'])) {
+            $question_id = intval($_GET['question_id']);
+            $wpdb->delete("{$wpdb->prefix}disc_questions", array('question_id' => $question_id));
+        }
+
+        wp_redirect(admin_url('admin.php?page=disc_manage_questions&test_id=' . intval($_GET['test_id'])));
+        exit;
     }
 
     public function add_menu_item($menu_title = 'Manage Questions', $menu_slug = 'disc_manage_questions', $capability = 'manage_options', $callback = null) {
