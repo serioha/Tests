@@ -44,13 +44,21 @@ document.addEventListener('DOMContentLoaded', function() {
             <button type="button" class="remove-answer">Remove</button>
         `;
         answersContainer.appendChild(newAnswer);
+        newAnswer.querySelector('.remove-answer').addEventListener('click', function() {
+            if (answersContainer.children.length > 1) {
+                newAnswer.remove();
+            } else {
+                alert('At least one answer block must remain.');
+            }
+        });
     });
 
     document.getElementById('answers-container').addEventListener('click', function(e) {
         if (e.target.classList.contains('remove-answer')) {
+            const answerBlock = e.target.parentElement;
             const answersContainer = document.getElementById('answers-container');
             if (answersContainer.children.length > 1) {
-                e.target.parentElement.remove();
+                answerBlock.remove();
             } else {
                 alert('At least one answer block must remain.');
             }
