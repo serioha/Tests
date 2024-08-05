@@ -22,6 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
             <button type="button" class="remove-answer">Remove</button>
         `;
         answersContainer.appendChild(newAnswer);
+
+        // Attach the event listener to the newly created "Remove Answer" button
         newAnswer.querySelector('.remove-answer').addEventListener('click', function() {
             if (answersContainer.children.length > 1) {
                 newAnswer.remove();
@@ -31,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Delegate the event listener to the 'answers-container'
     document.getElementById('answers-container').addEventListener('click', function(e) {
         if (e.target.classList.contains('remove-answer')) {
             const answerBlock = e.target.parentElement;
