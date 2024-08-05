@@ -1,24 +1,28 @@
-// JavaScript for the Create/Edit question page
-
-document.addEventListener('DOMContentLoaded', function () {
-    const addAnswerButton = document.getElementById('add-answer');
-    const answersContainer = document.getElementById('answers-container');
-
-    addAnswerButton.addEventListener('click', function () {
-        const newAnswer = document.createElement('div');
-        newAnswer.innerHTML = `
-            <div class="answer">
-                <label for="answer-new">Answer:</label>
-                <input type="text" id="answer-new" name="answers[]">
-                <button type="button" class="remove-answer">Remove</button>
-            </div>
-        `;
-        answersContainer.appendChild(newAnswer);
+// Fetch all questions from the API
+fetch('https://example.com/api/questions')
+    .then(response => response.json())
+    .then(data => {
+        // Process the questions data
+        console.log(data.questions);
     });
 
-    answersContainer.addEventListener('click', function (event) {
-        if (event.target.classList.contains('remove-answer')) {
-            event.target.parentNode.remove();
-        }
+// Create a new question object
+const question = {
+    text: 'What is the capital of France?',
+    options: ['A) Paris', 'B) London', 'C) Berlin', 'D) Madrid'],
+    correct_answer: 'A) Paris'
+};
+
+// Send a POST request to create a new question
+fetch('https://example.com/api/questions', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(question)
+})
+    .then(response => response.json())
+    .then(data => {
+        // Process the response data
+        console.log(data);
     });
-});
