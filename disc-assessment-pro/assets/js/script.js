@@ -1,4 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Delegate the event listener to the 'answers-container'
+    document.getElementById('answers-container').addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-answer')) {
+            const answerBlock = e.target.parentElement;
+            const answersContainer = document.getElementById('answers-container');
+            if (answersContainer.children.length > 1) {
+                answerBlock.remove();
+            } else {
+                alert('At least one answer block must remain.');
+            }
+        }
+    });
+
     document.getElementById('add-answer').addEventListener('click', function() {
         const answersContainer = document.getElementById('answers-container');
         const newAnswer = document.createElement('div');
@@ -31,19 +44,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('At least one answer block must remain.');
             }
         });
-    });
-
-    // Delegate the event listener to the 'answers-container'
-    document.getElementById('answers-container').addEventListener('click', function(e) {
-        if (e.target.classList.contains('remove-answer')) {
-            const answerBlock = e.target.parentElement;
-            const answersContainer = document.getElementById('answers-container');
-            if (answersContainer.children.length > 1) {
-                answerBlock.remove();
-            } else {
-                alert('At least one answer block must remain.');
-            }
-        }
     });
 
     document.querySelector('form').addEventListener('submit', function(e) {
