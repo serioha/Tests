@@ -46,7 +46,7 @@ class Create_Question extends DiSC_Admin_Base {
                 <textarea name="question_text" style="width: 100%;" required><?php echo esc_textarea($question_text); ?></textarea>
 
                 <h3>Possible Answers</h3>
-                <div id="answers-container" style="margin-bottom: 20px;"> <!-- Remove this duplicate -->
+                <div id="answers-container" style="margin-bottom: 20px;">
                     <?php
                     // If editing, display existing answers
                     if ($question_id > 0) {
@@ -98,28 +98,8 @@ class Create_Question extends DiSC_Admin_Base {
                     }
                     ?>
                 </div>
-                
-                <div id="answers-container" style="margin-bottom: 20px;">
-                    <div class="answer">
-                        <input class="answer-text" type="text" name="answer_text[]" placeholder="Answer Text" required>
-                        <div class="answer-group">
-                            <label>Adapted Style</label>
-                            <input type="number" name="score_d_adapted[]" placeholder="D" required>
-                            <input type="number" name="score_i_adapted[]" placeholder="I" required>
-                            <input type="number" name="score_s_adapted[]" placeholder="S" required>
-                            <input type="number" name="score_c_adapted[]" placeholder="C" required>
-                        </div>
-                        <div class="answer-group">
-                            <label>Natural Style</label>
-                            <input type="number" name="score_d_natural[]" placeholder="D" required>
-                            <input type="number" name="score_i_natural[]" placeholder="I" required>
-                            <input type="number" name="score_s_natural[]" placeholder="S" required>
-                            <input type="number" name="score_c_natural[]" placeholder="C" required>
-                        </div>
-                        <button type="button" class="remove-answer">Remove</button>
-                    </div>
-                </div>
-                <button type="button" id="add-answer" class="button button-secondary">Add Answer</button> <!-- Ensure this button is present -->
+
+                <button type="button" id="add-answer" class="button button-secondary">Add Answer</button>
                 <button type="submit" class="button button-primary"><?php echo $question_id > 0 ? 'Save Changes' : 'Add Question'; ?></button>
             </form>
         </div>
