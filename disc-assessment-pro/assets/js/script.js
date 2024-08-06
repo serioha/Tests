@@ -1,10 +1,14 @@
+console.log('script.js loaded');
+
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Script loaded');
     document.getElementById('add-answer').addEventListener('click', function() {
+        console.log('Add Answer button clicked');
         const answersContainer = document.getElementById('answers-container');
         const newAnswer = document.createElement('div');
         newAnswer.classList.add('answer');
         newAnswer.innerHTML = `
-            <input type="text" name="answer_text[]" placeholder="Answer Text" required>
+            <input class="answer-text" type="text" name="answer_text[]" placeholder="Answer Text" required>
             <div class="answer-group">
                 <label>Adapted Style</label>
                 <input type="number" name="score_d_adapted[]" placeholder="D" required>
@@ -33,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('answers-container').addEventListener('click', function(e) {
         if (e.target.classList.contains('remove-answer')) {
+            console.log('Remove Answer button clicked');
             const answerBlock = e.target.parentElement;
             const answersContainer = document.getElementById('answers-container');
             if (answersContainer.children.length > 1) {
@@ -44,11 +49,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.querySelector('form').addEventListener('submit', function(e) {
+        console.log('Form submitted');
         const answerInputs = document.querySelectorAll('.answer input');
         let allFilled = true;
         answerInputs.forEach(input => {
             if (!input.value) {
                 allFilled = false;
+                console.log('Missing value in input:', input);
             }
         });
         if (!allFilled) {

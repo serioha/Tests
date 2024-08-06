@@ -1,10 +1,11 @@
 <?php
 require_once __DIR__ . '/DiSC_Admin_Base.php';
+require_once __DIR__ . '/create-question.php'; // Ensure Create_Question class is loaded
 
 class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
     public function __construct($wpdb) {
         parent::__construct($wpdb);
-        add_action('admin_menu', array($this, 'add_menu_item'));
+        add_action('admin_menu', array($this, 'add_menu_items'));
         add_action('admin_post_delete_question', array($this, 'delete_question'));
     }
 
@@ -39,7 +40,7 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
         exit;
     }
 
-    public function add_menu_item($menu_title = 'Manage Questions', $menu_slug = 'disc_manage_questions', $capability = 'manage_options', $callback = null) {
+    public function add_menu_items($menu_title = 'Manage Questions', $menu_slug = 'disc_manage_questions', $capability = 'manage_options', $callback = null) {
         add_submenu_page(
             'disc_manage_tests',
             $menu_title,
@@ -48,6 +49,15 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
             $menu_slug,
             array($this, 'display_questions_page')
         );
+/*
+        $create_question = new Create_Question($this->wpdb);
+        $create_question->add_submenu_item(
+            'disc_manage_tests',
+            'Create Question',
+            'create-question',
+            'manage_options',
+            array($create_question, 'render')
+        );*/
     }
 
     public function display_questions_page() {
@@ -56,14 +66,14 @@ class DiSC_Admin_Manage_Questions extends DiSC_Admin_Base {
         // Handle the custom action for creating or editing questions
         if (isset($_GET['action'])) {
             $create_question = new Create_Question($wpdb);
-            if ($_GET['action'] === 'create_new_question') {
-                $create_question->render(); // Call the render method to display the form
-                return;
-            } elseif ($_GET['action'] === 'edit' && isset($_GET['question_id'])) {
-                $create_question->render(); // Call the render method for editing
+            $hook_suffix = $create_question->add_submenu_item('disc-assessment', 'Create Question', 'create-question', 'manage_options', array($create_question, 'render'));
+    
+            if ($_GET['action'] === 'create_new_question' || ($_GET['action'] === 'edit' && isset($_GET['question_id']))) {
+                $create_question->render();
                 return;
             }
         }
+    
 
         if (!isset($_GET['test_id'])) {
             wp_die(__('Test ID is missing.'));

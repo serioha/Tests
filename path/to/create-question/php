@@ -1,9 +1,0 @@
-<?php
-// Create a new question
-$question = new Question();
-$question->text = 'What is the capital of France?';
-$question->options = ['A) Paris', 'B) London', 'C) Berlin', 'D) Madrid'];
-$question->correct_answer = 'A) Paris';
-
-// Save the question to the database
-$question->save();
