@@ -17,15 +17,17 @@ class Create_Question extends DiSC_Admin_Base {
 
     public function render() {
         global $wpdb;
-    
+
         $question_id = isset($_GET['question_id']) ? intval($_GET['question_id']) : 0;
-        $test_id = isset($_GET['test_id']) ? intval($_GET['test_id']) : 0; // Get test_id from the URL
+        $test_id = isset($_GET['test_id']) ? intval($_GET['test_id']) : 0;
+        $table_name = $wpdb->prefix . 'disc_questions';
         $table_name = $wpdb->prefix . 'disc_questions';
     
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $action = sanitize_text_field($_POST['action']);
             $question_text = sanitize_textarea_field($_POST['question_text']);
-    
+            $result = false;
+
             if ($action === 'add') {
                 $result = $wpdb->insert(
                     $table_name,
@@ -35,7 +37,6 @@ class Create_Question extends DiSC_Admin_Base {
                     ],
                     ['%d', '%s']
                 );
-                $question_id = $wpdb->insert_id;
             } elseif ($action === 'edit') {
                 $question_id = intval($_POST['question_id']);
                 $result = $wpdb->update(
@@ -48,7 +49,6 @@ class Create_Question extends DiSC_Admin_Base {
             }
 
             if ($result !== false) {
-                $this->save_answers($question_id);
                 wp_redirect(admin_url('admin.php?page=disc_manage_questions&test_id=' . $test_id));
                 exit;
             } else {
