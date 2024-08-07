@@ -60,12 +60,14 @@ class DiSC_Frontend_Display_Tests extends DiSC_Frontend_Base {
                 $output .= '</div>';
             }
             $output .= '</div>';
+
+           // return $output;
         }
 
         return $output;
     }
 }
 
-global $wpdb;
-$tests_display = new DiSC_Frontend_Display_Tests($wpdb);
+//global $wpdb;
+//$tests_display = new DiSC_Frontend_Display_Tests($wpdb);
 ?>

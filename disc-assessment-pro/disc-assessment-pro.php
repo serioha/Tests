@@ -17,6 +17,7 @@ require_once __DIR__ . '/includes/core/DiSC_Settings.php';
 require_once __DIR__ . '/includes/frontend/DiSC_Frontend_Assessment_Form.php';
 require_once __DIR__ . '/includes/frontend/DiSC_Frontend_Base.php';
 require_once __DIR__ . '/includes/frontend/DiSC_Frontend_Result_Display.php';
+require_once __DIR__ . '/includes/frontend/DiSC_Frontend_Display_Tests.php';
 require_once __DIR__ . '/includes/models/DiSC_Reporting.php';
 require_once __DIR__ . '/includes/models/DiSC_Tests.php';
 require_once __DIR__ . '/includes/models/DiSC_User.php';
@@ -138,4 +139,6 @@ define('DISC_ASSESSMENT_PRO_VERSION', '1.0.0');
 
 add_action('plugins_loaded', function() {
     new DiSC_Plugin();
+    global $wpdb;
+    new DiSC_Frontend_Display_Tests($wpdb);
 });
